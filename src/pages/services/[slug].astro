@@ -1,0 +1,30 @@
+---
+import Layout from "../../components/Layout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const all = await getCollection('services', s => s.data.published !== false);
+  return all.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<Layout title={`${entry.data.title} — A.R. Euro Forêt`} description={entry.data.excerpt ?? "Service"}>
+  <section class="section">
+    <div class="container prose prose-neutral max-w-none">
+      <h1 class="text-3xl md:text-5xl font-display font-extrabold">{entry.data.title}</h1>
+      <p class="mt-2 text-anth/80">{entry.data.excerpt}</p>
+      <div class="mt-6">
+        <Content />
+      </div>
+      <div class="mt-8">
+        <a href="/contact" class="btn btn-primary">Demander un devis</a>
+        <a href="/services" class="btn btn-ghost ml-2">Tous les services</a>
+      </div>
+    </div>
+  </section>
+</Layout>

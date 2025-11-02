@@ -1,0 +1,71 @@
+---
+import "../styles/global.css";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import JsonLd from "./JsonLd.astro";
+import { SITE } from "../data/site";
+import PhoneBar from "./PhoneBar.astro";
+import { JSON_LD_EXTRA_ENABLED, PHONE_BAR_ENABLED } from "../lib/flags";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  jsonLd?: Record<string, any> | Record<string, any>[];
+}
+const { title = `${SITE.name} — Travaux forestiers, élagage & abattage`, description = "Interventions sécurisées pour particuliers, professionnels et collectivités. Devis gratuit.", ogImage = "/images/og-default.png", jsonLd = [] } = Astro.props as Props;
+
+const pageUrl = new URL(Astro.url.pathname, SITE.url).toString();
+const defaultLocalBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": SITE.name,
+  "url": SITE.url,
+  "telephone": SITE.phoneE164,
+  "email": SITE.email,
+  "description": "Travaux forestiers, élagage et abattage d’arbres.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": SITE.address.streetAddress,
+    "addressLocality": SITE.address.addressLocality,
+    "addressRegion": SITE.address.addressRegion,
+    "postalCode": SITE.address.postalCode,
+    "addressCountry": SITE.address.addressCountry,
+  },
+  "identifier": "SIRET " + SITE.siret,
+  "areaServed": SITE.areaServed,
+};
+const jsonLdList = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+const schemas = JSON_LD_EXTRA_ENABLED
+  ? [defaultLocalBusiness, ...jsonLdList]
+  : [defaultLocalBusiness];
+---
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={pageUrl} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:image" content={ogImage} />
+  {schemas.map((s) => <JsonLd data={s} />)}
+</head>
+<body>
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white border px-3 py-2 rounded">Aller au contenu</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+  {PHONE_BAR_ENABLED && <PhoneBar />}
+  <script is:inline>
+    const els=document.querySelectorAll('[data-reveal]');
+    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}})},{threshold:.15});
+    els.forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>

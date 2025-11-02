@@ -1,0 +1,17 @@
+---
+import Layout from "../components/Layout.astro";
+---
+<Layout title="Zone d’intervention — A.R. Euro Forêt" description="Nos communes et zones desservies.">
+  <section class="section">
+    <div class="container grid md:grid-cols-2 gap-10">
+      <div data-reveal>
+        <h1 class="text-3xl md:text-5xl font-display font-extrabold">Zone d’intervention</h1>
+        <p class="mt-3 text-anth/80">Ajoutez ici votre département et la liste des communes desservies (utile pour le SEO local).</p>
+        <ul class="mt-3 grid grid-cols-2 gap-2 text-anth/80">
+          <li>Ville A (12345)</li><li>Ville B (12346)</li><li>Ville C (12347)</li><li>Ville D (12348)</li>
+        </ul>
+      </div>
+      <img src="/images/map-placeholder.svg" class="w-full h-auto rounded-xl shadow-soft" alt="Carte des communes desservies" loading="lazy" data-reveal />
+    </div>
+  </section>
+</Layout>

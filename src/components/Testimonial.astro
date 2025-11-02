@@ -1,0 +1,9 @@
+---
+interface Props {
+  quote: string;
+}
+const { quote } = Astro.props as Props;
+---
+<figure class="rounded-xl bg-white border border-black/10 p-6 shadow-soft" data-reveal>
+  <blockquote class="text-anth/90">“{quote}”</blockquote>
+</figure>

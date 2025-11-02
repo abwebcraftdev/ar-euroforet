@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.env
+.env.basic
+.env.cms
+.env.*.local
+.vscode
+.idea
+.pnpm-store

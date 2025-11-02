@@ -1,0 +1,17 @@
+---
+import Layout from "../components/Layout.astro";
+import { SITE } from "../data/site";
+---
+<Layout title="Mentions légales — A.R. Euro Forêt" description="Mentions légales du site.">
+  <section class="section">
+    <div class="container space-y-4">
+      <h1 class="text-3xl font-display font-bold">Mentions légales</h1>
+      <p><strong>Éditeur</strong> : {SITE.name}</p>
+      <p><strong>SIRET</strong> : {SITE.siret}</p>
+      <p><strong>Activité</strong> : {SITE.activity}</p>
+      <p><strong>Email</strong> : <a class="text-forest underline" href={"mailto:" + SITE.email}>{SITE.email}</a></p>
+      <p><strong>Téléphone</strong> : <a class="text-forest underline" href={"tel:" + SITE.phoneE164}>{SITE.phoneDisplay}</a></p>
+      <p class="text-sm text-anth/70">Hébergeur : à compléter (ex. Vercel/Netlify).</p>
+    </div>
+  </section>
+</Layout>

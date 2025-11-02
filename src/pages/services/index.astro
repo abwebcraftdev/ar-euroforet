@@ -1,0 +1,29 @@
+---
+import Layout from "../../components/Layout.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import { getCollection } from "astro:content";
+
+const services = await getCollection('services', s => s.data.published !== false);
+const sorted = services.sort((a,b)=>(a.data.order??999)-(b.data.order??999));
+---
+<Layout
+  title="Nos services — A.R. Euro Forêt"
+  description="Élagage, abattage, travaux forestiers, débroussaillage et bois sur pied. Interventions sécurisées et travail soigné."
+>
+  <section class="section">
+    <div class="container space-y-6">
+      <h1 class="text-3xl md:text-5xl font-display font-extrabold">Nos services</h1>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sorted.map((s) => (
+          <ServiceCard
+            title={s.data.title}
+            description={s.data.excerpt ?? ""}
+            href={`/services/${s.slug}`}
+            ctaType={s.data.ctaType}
+            ctaLabel={s.data.ctaLabel}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

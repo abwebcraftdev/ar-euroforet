@@ -1,0 +1,29 @@
+---
+import { SITE } from "../data/site";
+import { CMS_ENABLED } from "../lib/flags";
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  ctaType?: "page" | "call";
+  ctaLabel?: string;
+}
+const { title, description, href, ctaType, ctaLabel } = Astro.props as Props;
+const computedType = ctaType ?? "page";
+const fallbackLabel =
+  computedType === "call"
+    ? "Appeler"
+    : CMS_ENABLED
+    ? "Voir le service"
+    : "Obtenir un devis";
+const resolvedLabel = ctaLabel ?? fallbackLabel;
+const ctaHref = computedType === "call" ? `tel:${SITE.phoneE164}` : href;
+---
+<article class="rounded-xl border border-black/10 p-6 bg-white shadow-soft" data-reveal>
+  <h3 class="text-xl font-semibold">
+    <a href={href} class="hover:text-forest transition">{title}</a>
+  </h3>
+  <p class="mt-2 text-anth/80">{description}</p>
+  <a href={ctaHref} class="btn btn-ghost mt-4">{resolvedLabel}</a>
+</article>

@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #2E4F2F;
+  --brown: #8B5A2B;
+  --beige: #F5F1E6;
+  --anth: #2E2E2E;
+  --radius: 12px;
+  --shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-sans text-anth bg-white;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-display text-anth;
+}
+
+.btn {
+  @apply inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium shadow-soft transition;
+}
+
+.btn-primary {
+  @apply bg-forest text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-forest/40;
+}
+
+.btn-secondary {
+  @apply bg-brown text-white hover:opacity-90;
+}
+
+.btn-ghost {
+  @apply bg-transparent text-forest border border-forest/30 hover:bg-forest/5;
+}
+
+.section {
+  @apply py-16 md:py-24;
+}
+
+.section-alt {
+  background: var(--beige);
+}
+
+/* Reveal-on-scroll base */
+[data-reveal] {
+  opacity: 0.001;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sticky phone bar on mobile */
+.phone-bar {
+  @apply fixed bottom-0 inset-x-0 md:hidden bg-white/95 backdrop-blur border-t border-black/10 z-40;
+}
+
+.phone-bar a {
+  @apply flex-1 text-center py-3 font-semibold;
+}
+
+.phone-bar .call {
+  @apply text-white bg-forest;
+}
+
+.phone-bar .quote {
+  @apply text-forest;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Simple container */
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Prose helpers */
+.lead {
+  @apply text-lg text-anth/80;
+}
+
+.small {
+  @apply text-sm text-anth/70;
+}

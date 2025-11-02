@@ -1,0 +1,27 @@
+---
+import { SITE } from "../data/site";
+---
+<section class="section pt-8 md:pt-16">
+  <div class="container grid md:grid-cols-2 gap-10 items-center">
+    <div data-reveal>
+      <h1 class="text-3xl md:text-5xl font-display font-extrabold leading-tight">
+        Élagage, abattage & travaux forestiers — interventions sécurisées
+      </h1>
+      <p class="lead mt-4">
+        Particuliers, professionnels, collectivités. Devis gratuit sous 24 h, intervention rapide sur votre zone.
+      </p>
+      <ul class="mt-6 space-y-2 text-anth/80">
+        <li>• Équipe qualifiée, matériel adapté</li>
+        <li>• Respect des normes & de l'environnement</li>
+        <li>• Assurance responsabilité civile professionnelle</li>
+      </ul>
+      <div class="mt-8 flex gap-3">
+        <a href="/contact" class="btn btn-primary">Demander un devis</a>
+        <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost" aria-label={`Appeler ${SITE.name}`}>Appeler maintenant</a>
+      </div>
+    </div>
+    <div class="relative" data-reveal>
+      <img src="/images/hero.svg" alt="Intervention d'élagage en sécurité" class="w-full h-auto drop-shadow" loading="eager" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+import { SITE } from "../data/site";
+import { ADMIN_LINK_ENABLED } from "../lib/flags";
+---
+<footer class="mt-24 border-t border-black/10">
+  <div class="container grid md:grid-cols-3 gap-8 py-12">
+    <div>
+      <h3 class="font-display font-semibold mb-3">A.R. Euro Forêt</h3>
+      <p class="small text-anth/80">Travaux forestiers, élagage, abattage et entretien d'espaces verts.</p>
+      <p class="small mt-3"><strong>SIRET</strong> : {SITE.siret}</p>
+      <p class="small"><strong>Activité</strong> : {SITE.activity}</p>
+    </div>
+    <div>
+      <h4 class="font-semibold mb-3">Contact</h4>
+      <ul class="space-y-2">
+        <li><a class="text-forest" href={"tel:" + SITE.phoneE164}>{SITE.phoneDisplay}</a></li>
+        <li><a class="text-forest" href={"mailto:" + SITE.email}>{SITE.email}</a></li>
+        <li><a class="text-forest" href="#">Mappy</a></li>
+        <li><a class="text-forest" href="#">Travaux.com</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-semibold mb-3">Liens</h4>
+      <ul class="space-y-2">
+        <li><a class="text-anth/80 hover:text-anth" href="/mentions-legales">Mentions légales</a></li>
+        <li><a class="text-anth/80 hover:text-anth" href="/politique-de-confidentialite">Politique de confidentialité</a></li>
+        {ADMIN_LINK_ENABLED && (
+          <li><a class="text-anth/80 hover:text-anth" href="/admin/">Admin</a></li>
+        )}
+      </ul>
+    </div>
+  </div>
+  <div class="py-6 bg-beige/60">
+    <div class="container small text-anth/70 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <span>© {new Date().getFullYear()} {SITE.name}. Tous droits réservés.</span>
+      <span>Site propulsé par Astro.</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,9 @@
+---
+const { title, intro } = Astro.props as { title: string; intro?: string };
+---
+<section class="section pb-10">
+  <div class="container">
+    <h1 class="text-3xl md:text-5xl font-display font-extrabold">{title}</h1>
+    {intro && <p class="lead mt-3">{intro}</p>}
+  </div>
+</section>

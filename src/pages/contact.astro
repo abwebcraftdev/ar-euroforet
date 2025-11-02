@@ -1,0 +1,33 @@
+---
+import Layout from "../components/Layout.astro";
+import PageHeading from "../components/PageHeading.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { SITE } from "../data/site";
+---
+<Layout
+  title="Contact — A.R. Euro Forêt"
+  description="Besoin d'un devis, d'un conseil ou d'une intervention ? Contactez-nous."
+>
+  <PageHeading
+    title="Contact"
+    intro="Besoin d’un devis, d’un conseil ou d’une intervention ? Contactez-nous directement, nous vous répondrons dans les plus brefs délais."
+  />
+  <section class="section pt-0">
+    <div class="container grid md:grid-cols-2 gap-12">
+      <div data-reveal>
+        <h2 class="font-semibold">Contact direct</h2>
+        <p class="mt-2">
+          <a class="text-forest underline" href={"tel:" + SITE.phoneE164}>{SITE.phoneDisplay}</a>
+        </p>
+        <p class="mt-1">
+          <a class="text-forest underline" href={"mailto:" + SITE.email}>{SITE.email}</a>
+        </p>
+        <p class="small mt-4 text-anth/70">Horaires indicatifs : Lun–Ven 8:00–18:00</p>
+      </div>
+      <div data-reveal>
+        <h2 class="font-semibold">Formulaire</h2>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</Layout>

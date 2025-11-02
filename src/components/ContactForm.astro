@@ -1,0 +1,69 @@
+---
+import { SITE } from "../data/site";
+import { UPLOAD_ENABLED } from "../lib/flags";
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
+const action = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined;
+---
+<form
+  name="contact"
+  method="POST"
+  class="space-y-4"
+  enctype="multipart/form-data"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  action={action}
+>
+  <input type="hidden" name="form-name" value="contact" />
+  <p class="hidden">
+    <label>Ne pas remplir si vous êtes humain: <input name="bot-field" /></label>
+  </p>
+  <div class="grid md:grid-cols-2 gap-4">
+    <label class="block">
+      <span class="small">Nom*</span>
+      <input class="mt-1 block w-full" type="text" name="name" required />
+    </label>
+    <label class="block">
+      <span class="small">Téléphone*</span>
+      <input class="mt-1 block w-full" type="tel" name="phone" required />
+    </label>
+  </div>
+  <div class="grid md:grid-cols-2 gap-4">
+    <label class="block">
+      <span class="small">Email</span>
+      <input class="mt-1 block w-full" type="email" name="email" />
+    </label>
+    <label class="block">
+      <span class="small">Code postal*</span>
+      <input class="mt-1 block w-full" type="text" name="postal" required />
+    </label>
+  </div>
+  <label class="block">
+    <span class="small">Service souhaité</span>
+    <select class="mt-1 block w-full" name="service">
+      <option>Élagage & Abattage</option>
+      <option>Travaux forestiers</option>
+      <option>Débroussaillage & Défrichage</option>
+      <option>Bois de chauffage</option>
+      <option>Bois sur pied</option>
+      <option>Autre</option>
+    </select>
+  </label>
+  <label class="block">
+    <span class="small">Message</span>
+    <textarea class="mt-1 block w-full" name="message" rows="5"></textarea>
+  </label>
+  {UPLOAD_ENABLED && (
+    <label class="block">
+      <span class="small">Photos (3 max, 10 Mo)</span>
+      <input class="mt-1 block w-full" type="file" name="photos" accept="image/*" multiple />
+    </label>
+  )}
+  <div class="flex gap-3">
+    <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+    <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost" aria-label={`Appeler ${SITE.name}`}>Appeler maintenant</a>
+  </div>
+  <p class="small text-anth/60">
+    En envoyant, vous acceptez la <a class="text-forest underline" href="/politique-de-confidentialite">politique de
+    confidentialité</a>.
+  </p>
+</form>
