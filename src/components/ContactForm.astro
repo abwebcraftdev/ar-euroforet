@@ -2,29 +2,49 @@
 import { SITE } from "../data/site";
 import { UPLOAD_ENABLED } from "../lib/flags";
 const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
-const action = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined;
+const formsubmitEmail = import.meta.env.PUBLIC_FORMSUBMIT_EMAIL;
+const useApiHandler = import.meta.env.PUBLIC_CONTACT_ENDPOINT === "api";
+const action = useApiHandler
+  ? "/api/contact"
+  : formspreeId
+  ? `https://formspree.io/f/${formspreeId}`
+  : formsubmitEmail
+  ? `https://formsubmit.co/${formsubmitEmail}`
+  : undefined;
+const usingFormsubmit = !useApiHandler && !formspreeId && Boolean(formsubmitEmail);
+const defaultSubject = `Nouvelle demande via ${SITE.name}`;
 ---
 <form
+  id="contact-form"
   name="contact"
   method="POST"
   class="space-y-4"
   enctype="multipart/form-data"
-  data-netlify="true"
+  data-netlify={!useApiHandler ? "true" : undefined}
   netlify-honeypot="bot-field"
   action={action}
 >
   <input type="hidden" name="form-name" value="contact" />
+  {usingFormsubmit && (
+    <>
+      <input type="hidden" name="_subject" value={defaultSubject} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_replyto" value="" />
+      <input type="hidden" name="Résumé" value="" />
+    </>
+  )}
   <p class="hidden">
     <label>Ne pas remplir si vous êtes humain: <input name="bot-field" /></label>
   </p>
   <div class="grid md:grid-cols-2 gap-4">
     <label class="block">
       <span class="small">Nom*</span>
-      <input class="mt-1 block w-full" type="text" name="name" required />
+      <input class="mt-1 block w-full" type="text" name="nom" required />
     </label>
     <label class="block">
       <span class="small">Téléphone*</span>
-      <input class="mt-1 block w-full" type="tel" name="phone" required />
+      <input class="mt-1 block w-full" type="tel" name="telephone" required />
     </label>
   </div>
   <div class="grid md:grid-cols-2 gap-4">
@@ -34,12 +54,12 @@ const action = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined
     </label>
     <label class="block">
       <span class="small">Code postal*</span>
-      <input class="mt-1 block w-full" type="text" name="postal" required />
+      <input class="mt-1 block w-full" type="text" name="code_postal" required />
     </label>
   </div>
   <label class="block">
     <span class="small">Service souhaité</span>
-    <select class="mt-1 block w-full" name="service">
+    <select class="mt-1 block w-full" name="service_souhaite">
       <option>Élagage & Abattage</option>
       <option>Travaux forestiers</option>
       <option>Débroussaillage & Défrichage</option>
@@ -58,12 +78,134 @@ const action = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined
       <input class="mt-1 block w-full" type="file" name="photos" accept="image/*" multiple />
     </label>
   )}
-  <div class="flex gap-3">
-    <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
-    <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost" aria-label={`Appeler ${SITE.name}`}>Appeler maintenant</a>
+  <div class="flex flex-col sm:flex-row gap-3">
+    <button class="btn btn-primary w-full sm:w-auto" type="submit">Envoyer ma demande</button>
+    <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost w-full sm:w-auto" aria-label={`Appeler ${SITE.name}`}>Appeler maintenant</a>
   </div>
   <p class="small text-anth/60">
     En envoyant, vous acceptez la <a class="text-forest underline" href="/politique-de-confidentialite">politique de
     confidentialité</a>.
   </p>
+  <p id="contact-form-status" class="small"></p>
 </form>
+{useApiHandler && (
+  <script is:inline>
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("contact-form-status");
+
+    if (form) {
+      const submitButton = form.querySelector("button[type='submit']");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (status) {
+          status.textContent = "";
+          status.classList.remove("text-red-600", "text-green-600");
+        }
+
+        const formData = new FormData(form);
+
+        if (submitButton) {
+          submitButton.dataset.originalLabel = submitButton.textContent || "";
+          submitButton.disabled = true;
+          submitButton.textContent = "Envoi en cours...";
+        }
+
+        try {
+          const response = await fetch(form.action || "/api/contact", {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+
+          let payload: Record<string, any> | null = null;
+          try {
+            payload = await response.json();
+          } catch (parseError) {
+            payload = null;
+          }
+
+          if (response.ok && payload?.success) {
+            form.reset();
+            if (status) {
+              status.textContent = "Merci, votre demande a bien été envoyée.";
+              status.classList.add("text-green-600");
+            }
+          } else if (status) {
+            status.textContent = payload?.message || "Impossible d'envoyer la demande, veuillez réessayer.";
+            status.classList.add("text-red-600");
+          }
+        } catch (err) {
+          if (status) {
+            status.textContent = "Une erreur inattendue est survenue. Merci de réessayer.";
+            status.classList.add("text-red-600");
+          }
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = submitButton.dataset.originalLabel || "Envoyer ma demande";
+          }
+        }
+      });
+    }
+  </script>
+)}
+{usingFormsubmit && (
+  <script is:inline>
+    const siteName = {JSON.stringify(SITE.name)};
+    const form = document.getElementById("contact-form");
+    if (form) {
+      form.addEventListener("submit", () => {
+        const subjectInput = form.querySelector("input[name='_subject']");
+        const replyToInput = form.querySelector("input[name='_replyto']");
+        const summaryInput = form.querySelector("input[name='Résumé']");
+        const nom = form.querySelector("input[name='nom']");
+        const telephone = form.querySelector("input[name='telephone']");
+        const email = form.querySelector("input[name='email']");
+        const codePostal = form.querySelector("input[name='code_postal']");
+        const service = form.querySelector("select[name='service_souhaite']");
+        const message = form.querySelector("textarea[name='message']");
+        const photos = form.querySelector("input[name='photos']");
+
+        const nomValue = nom?.value.trim() || "";
+        const serviceValue = service?.value.trim() || "";
+        const emailValue = email?.value.trim() || "";
+        const telephoneValue = telephone?.value.trim() || "";
+        const codePostalValue = codePostal?.value.trim() || "";
+        const messageValue = message?.value.trim() || "";
+        const filesCount = photos?.files ? Array.from(photos.files).filter(file => file?.name).length : 0;
+
+        const subjectParts = [];
+        if (serviceValue) subjectParts.push(serviceValue);
+        if (nomValue) subjectParts.push(nomValue);
+        if (!subjectParts.length) subjectParts.push(`Demande via ${siteName}`);
+        let subject = subjectParts.join(" - ");
+        if (filesCount) {
+          subject += ` (${filesCount} ${filesCount > 1 ? "photos" : "photo"})`;
+        }
+
+        if (subjectInput) subjectInput.value = subject;
+        if (replyToInput) replyToInput.value = emailValue;
+        if (summaryInput) {
+          const summaryLines = [
+            `Bonjour,`,
+            ``,
+            `Nouvelle demande reçue via ${siteName}.`,
+            ``,
+            `Nom : ${nomValue || "—"}`,
+            `Téléphone : ${telephoneValue || "—"}`,
+            `Email : ${emailValue || "—"}`,
+            `Code postal : ${codePostalValue || "—"}`,
+            `Service souhaité : ${serviceValue || "—"}`,
+            ``,
+            `Message :`,
+            messageValue || "—",
+          ];
+          summaryInput.value = summaryLines.join("\n");
+        }
+      });
+    }
+  </script>
+)}

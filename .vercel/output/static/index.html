@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.jpg" type="image/jpeg"><title>A.R. Euro Forêt — Travaux forestiers, élagage &amp; abattage</title><meta name="description" content="Entreprise d’élagage, abattage et travaux forestiers. Interventions sécurisées pour particuliers, professionnels et collectivités. Devis gratuit."><link rel="canonical" href="https://www.areuroforet.fr/"><meta property="og:type" content="website"><meta property="og:title" content="A.R. Euro Forêt — Travaux forestiers, élagage &#38; abattage"><meta property="og:description" content="Entreprise d’élagage, abattage et travaux forestiers. Interventions sécurisées pour particuliers, professionnels et collectivités. Devis gratuit."><meta property="og:url" content="https://www.areuroforet.fr/"><meta property="og:image" content="/images/og-default.png"><script type="application/ld+json">{JSON.stringify(data)}</script><link rel="stylesheet" href="/_astro/bois-de-chauffage.D2PoyCh6.css">
+<style>.carousel-wrapper[data-astro-cid-j7pv25f6]{mask-image:linear-gradient(to right,transparent,black 6%,black 94%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 6%,black 94%,transparent)}.carousel-wrapper[data-astro-cid-j7pv25f6]:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:4px}.carousel-track[data-astro-cid-j7pv25f6]{will-change:transform;transform:translate(0)}
+</style></head> <body class="min-h-screen flex flex-col"> <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white border px-3 py-2 rounded">Aller au contenu</a> <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-black/10"> <div class="container flex items-center justify-between h-16"> <a href="/" class="flex items-center gap-3"> <img src="/logo-ar-foret.jpeg" alt="Logo A.R. Euro Forêt" width="28" height="28" class="object-contain"> <span class="font-display font-bold text-lg">A.R. Euro Forêt</span> </a> <nav class="hidden md:flex items-center gap-6"> <a href="/" class="text-anth/80 hover:text-anth">Accueil</a><a href="/services" class="text-anth/80 hover:text-anth">Services</a><a href="/bois-de-chauffage" class="text-anth/80 hover:text-anth">Bois de chauffage</a><a href="/zone-d_intervention" class="text-anth/80 hover:text-anth">Zone d’intervention</a><a href="/galerie" class="text-anth/80 hover:text-anth">Galerie</a><a href="/contact" class="text-anth/80 hover:text-anth">Contact</a>  </nav> <div class="hidden md:flex items-center gap-3"> <a href="tel:+33600000000" class="btn btn-ghost">Appeler</a> <a href="/contact" class="btn btn-primary">Demander un devis</a> </div> <button id="mobile-menu-toggle" class="md:hidden p-2" type="button" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false"> <svg width="24" height="24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"></path></svg> </button> </div> <div id="mobile-nav" class="md:hidden hidden border-t border-black/10" aria-hidden="true"> <div class="container py-4 flex flex-col gap-4"> <a href="/" class="text-anth">Accueil</a><a href="/services" class="text-anth">Services</a><a href="/bois-de-chauffage" class="text-anth">Bois de chauffage</a><a href="/zone-d_intervention" class="text-anth">Zone d’intervention</a><a href="/galerie" class="text-anth">Galerie</a><a href="/contact" class="text-anth">Contact</a>  <div class="flex flex-col sm:flex-row gap-3"> <a href="tel:+33600000000" class="btn btn-ghost flex-1 w-full sm:w-auto">Appeler</a> <a href="/contact" class="btn btn-primary flex-1 w-full sm:w-auto">Demander un devis</a> </div> </div> </div> </header> <script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (toggle && mobileNav) {
+    const getLinks = () => Array.from(mobileNav.querySelectorAll('a'));
+
+    const closeMenu = () => {
+      mobileNav.classList.add('hidden');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    };
+
+    const openMenu = () => {
+      mobileNav.classList.remove('hidden');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      const firstLink = mobileNav.querySelector('a');
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    getLinks().forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    mobileNav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+  }
+</script> <main id="main" class="flex-1 pb-24 md:pb-0">  <section class="relative min-h-[70vh] flex items-start overflow-hidden pt-8 md:pt-16" data-astro-cid-j7pv25f6> <picture class="absolute inset-0 -z-10" data-astro-cid-j7pv25f6> <source srcset="/images/home-1920.JPG 1920w, /images/home-1280.JPG 1280w, /images/home-640.JPG 640w" sizes="(min-width: 1024px) 100vw, 100vw" type="image/jpeg" data-astro-cid-j7pv25f6> <img src="/images/home-1280.JPG" alt="" class="h-full w-full object-cover" loading="lazy" decoding="async" data-astro-cid-j7pv25f6> </picture> <div class="absolute inset-0 bg-black/50" aria-hidden="true" data-astro-cid-j7pv25f6></div> <div class="container relative z-10 max-w-3xl" data-astro-cid-j7pv25f6> <div data-reveal data-astro-cid-j7pv25f6> <h1 class="text-3xl md:text-5xl font-display font-extrabold leading-tight text-white drop-shadow-lg" data-astro-cid-j7pv25f6> Travaux forestiers, élagage &amp; abattage </h1> <p class="text-lg mt-8 text-white drop-shadow max-w-full sm:max-w-[60%]" data-astro-cid-j7pv25f6> A.R. Euro Forêt, entreprise spécialisée dans les travaux forestiers, l’élagage et l’abattage d’arbres, intervient auprès des particuliers, professionnels et collectivités. Notre équipe expérimentée et qualifiée vous accompagne dans tous vos projets liés à la gestion du bois et des espaces verts, avec un savoir-faire reconnu et un travail soigné. </p> <ul class="mt-6 space-y-2 text-white drop-shadow" data-astro-cid-j7pv25f6> <li data-astro-cid-j7pv25f6>• Équipe expérimentée et qualifiée</li><li data-astro-cid-j7pv25f6>• Service rapide, sécurisé et professionnel</li><li data-astro-cid-j7pv25f6>• Gestion complète du bois et des espaces verts</li> </ul> <div class="mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto" data-astro-cid-j7pv25f6> <a href="/contact" class="btn btn-primary w-full sm:w-auto" data-astro-cid-j7pv25f6>Demander un devis</a> <a href="tel:+33600000000" class="btn bg-white/10 text-white border-white/30 hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto" aria-label="Appeler A.R. Euro Forêt" data-astro-cid-j7pv25f6>Appeler maintenant</a> </div> </div> </div> </section> <section class="section" data-astro-cid-j7pv25f6> <div class="container" data-astro-cid-j7pv25f6> <h2 class="text-2xl md:text-3xl font-display font-bold mb-6" data-reveal data-astro-cid-j7pv25f6>Nos services</h2> <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-astro-cid-j7pv25f6> <article class="service-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-forest/15 bg-gradient-to-br from-white to-beige/70 shadow-soft transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg" data-reveal> <div class="absolute inset-0 bg-gradient-to-br from-forest/5 via-transparent to-brown/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"></div> <div class="relative z-10 flex flex-1 flex-col gap-6 p-6"> <div class="space-y-3"> <h3 class="font-display text-xl font-semibold text-forest"> Élagage &amp; Abattage </h3> <p class="text-sm leading-relaxed text-anth/75">Élagage et abattage d’arbres de toute hauteur, accès difficiles compris. Intervention sécurisée, matériel adapté.</p> </div> <div class="mt-auto flex items-center gap-3 text-sm font-medium text-forest/80"> <a href="tel:+33600000000" class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-forest text-white px-4 py-2 text-sm font-semibold transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"> Appeler pour un devis <svg class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-within:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"> <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </a> <span class="ml-auto inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-forest/80 shadow-sm backdrop-blur"> Sur devis </span> </div> </div> <a href="/services/elagage-abattage" class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest/50" aria-label="Découvrir le service Élagage &#38; Abattage"> <span class="sr-only">Découvrir le service Élagage &amp; Abattage</span> </a> </article><article class="service-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-forest/15 bg-gradient-to-br from-white to-beige/70 shadow-soft transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg" data-reveal> <div class="absolute inset-0 bg-gradient-to-br from-forest/5 via-transparent to-brown/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"></div> <div class="relative z-10 flex flex-1 flex-col gap-6 p-6"> <div class="space-y-3"> <h3 class="font-display text-xl font-semibold text-forest"> Vente de bois de chauffage </h3> <p class="text-sm leading-relaxed text-anth/75">Bois sec prêt à brûler, livré ou à retirer. À partir de 80 € le stère (exemple).</p> </div> <div class="mt-auto flex items-center gap-3 text-sm font-medium text-forest/80"> <a href="tel:+33600000000" class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-forest text-white px-4 py-2 text-sm font-semibold transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"> Appeler pour commander <svg class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-within:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"> <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </a> <span class="ml-auto inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-forest/80 shadow-sm backdrop-blur"> À partir de 80 € le stère </span> </div> </div> <a href="/services/bois-de-chauffage" class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest/50" aria-label="Découvrir le service Vente de bois de chauffage"> <span class="sr-only">Découvrir le service Vente de bois de chauffage</span> </a> </article><article class="service-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-forest/15 bg-gradient-to-br from-white to-beige/70 shadow-soft transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg" data-reveal> <div class="absolute inset-0 bg-gradient-to-br from-forest/5 via-transparent to-brown/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"></div> <div class="relative z-10 flex flex-1 flex-col gap-6 p-6"> <div class="space-y-3"> <h3 class="font-display text-xl font-semibold text-forest"> Travaux forestiers </h3> <p class="text-sm leading-relaxed text-anth/75">Coupe, débardage, reboisement et entretien des chemins pour valoriser durablement vos parcelles.</p> </div> <div class="mt-auto flex items-center gap-3 text-sm font-medium text-forest/80"> <a href="tel:+33600000000" class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-forest text-white px-4 py-2 text-sm font-semibold transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"> Appeler pour un chantier <svg class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-within:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"> <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </a> <span class="ml-auto inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-forest/80 shadow-sm backdrop-blur"> Sur devis </span> </div> </div> <a href="/services/travaux-forestiers" class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest/50" aria-label="Découvrir le service Travaux forestiers"> <span class="sr-only">Découvrir le service Travaux forestiers</span> </a> </article><article class="service-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-forest/15 bg-gradient-to-br from-white to-beige/70 shadow-soft transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg" data-reveal> <div class="absolute inset-0 bg-gradient-to-br from-forest/5 via-transparent to-brown/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"></div> <div class="relative z-10 flex flex-1 flex-col gap-6 p-6"> <div class="space-y-3"> <h3 class="font-display text-xl font-semibold text-forest"> Achat &amp; vente de bois sur pied </h3> <p class="text-sm leading-relaxed text-anth/75">Estimation, achat et valorisation de vos parcelles boisées dans le respect des règles forestières.</p> </div> <div class="mt-auto flex items-center gap-3 text-sm font-medium text-forest/80"> <a href="tel:+33600000000" class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-forest text-white px-4 py-2 text-sm font-semibold transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"> Appeler pour une estimation <svg class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-within:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"> <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </a> <span class="ml-auto inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-forest/80 shadow-sm backdrop-blur"> Sur devis </span> </div> </div> <a href="/services/vente-sur-pied" class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest/50" aria-label="Découvrir le service Achat &#38; vente de bois sur pied"> <span class="sr-only">Découvrir le service Achat &amp; vente de bois sur pied</span> </a> </article><article class="service-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-forest/15 bg-gradient-to-br from-white to-beige/70 shadow-soft transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg" data-reveal> <div class="absolute inset-0 bg-gradient-to-br from-forest/5 via-transparent to-brown/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"></div> <div class="relative z-10 flex flex-1 flex-col gap-6 p-6"> <div class="space-y-3"> <h3 class="font-display text-xl font-semibold text-forest"> Débroussaillage &amp; Défrichage </h3> <p class="text-sm leading-relaxed text-anth/75">Nettoyage de terrains, chemins et zones boisées pour limiter les risques incendie et préparer vos projets.</p> </div> <div class="mt-auto flex items-center gap-3 text-sm font-medium text-forest/80"> <a href="tel:+33600000000" class="relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-forest text-white px-4 py-2 text-sm font-semibold transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"> Appeler pour un devis <svg class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-within:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"> <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </a> <span class="ml-auto inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-forest/80 shadow-sm backdrop-blur"> Sur devis </span> </div> </div> <a href="/services/debroussaillage" class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest/50" aria-label="Découvrir le service Débroussaillage &#38; Défrichage"> <span class="sr-only">Découvrir le service Débroussaillage &amp; Défrichage</span> </a> </article> </div> <div class="mt-6" data-astro-cid-j7pv25f6> <a class="btn btn-ghost" href="/services" data-astro-cid-j7pv25f6>Voir tous les services</a> </div> </div> </section> <section class="section section-alt overflow-hidden py-8 relative" style="background-color: rgba(235,168,0,0.3)" data-astro-cid-j7pv25f6> <div class="carousel-wrapper relative w-full h-48 sm:h-56 md:h-64 overflow-hidden" data-carousel-wrapper data-carousel-config="%7B%22images%22%3A%5B%22IMG_9680.JPG%22%2C%22IMG_9681.JPG%22%2C%22IMG_9682.JPG%22%2C%22IMG_9683.JPG%22%2C%22IMG_9684.JPG%22%2C%22IMG_9685.JPG%22%2C%22IMG_9686.JPG%22%2C%22IMG_9687.JPG%22%2C%22IMG_9689.JPG%22%2C%22IMG_9690.JPG%22%2C%22IMG_9691.JPG%22%2C%22IMG_9692.JPG%22%2C%22IMG_9693.JPG%22%2C%22IMG_9695.JPG%22%2C%22IMG_9696.JPG%22%2C%22IMG_9697.JPG%22%2C%22IMG_9698.JPG%22%2C%22IMG_9699.JPG%22%2C%22IMG_9700.JPG%22%2C%22IMG_9701.JPG%22%2C%22IMG_9702.JPG%22%2C%22IMG_9703.JPG%22%2C%22IMG_9704.JPG%22%2C%22IMG_9705.JPG%22%2C%22IMG_9706.JPG%22%2C%22IMG_9707.JPG%22%2C%22IMG_9708.JPG%22%2C%22IMG_9709.JPG%22%2C%22IMG_9710.JPG%22%2C%22IMG_9711.JPG%22%2C%22IMG_9712.JPG%22%2C%22IMG_9714.JPG%22%2C%22IMG_9715.JPG%22%2C%22IMG_9716.JPG%22%2C%22IMG_9717.JPG%22%2C%22IMG_9718.JPG%22%2C%22IMG_9719.JPG%22%2C%22IMG_9720.JPG%22%2C%22IMG_9721.JPG%22%5D%2C%22recentWindow%22%3A10%2C%22recentSeed%22%3A%5B%22IMG_9695.JPG%22%2C%22IMG_9690.JPG%22%2C%22IMG_9704.JPG%22%2C%22IMG_9705.JPG%22%2C%22IMG_9710.JPG%22%2C%22IMG_9685.JPG%22%2C%22IMG_9702.JPG%22%2C%22IMG_9711.JPG%22%2C%22IMG_9698.JPG%22%2C%22IMG_9719.JPG%22%5D%2C%22speed%22%3A60%7D" tabindex="0" aria-label="Galerie photos des réalisations" data-astro-cid-j7pv25f6> <div class="carousel-track flex gap-4" data-carousel-track data-astro-cid-j7pv25f6> <img src="/images/IMG_9714.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9696.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9692.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9695.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9690.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9704.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9705.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9710.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9685.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9702.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9711.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9698.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6><img src="/images/IMG_9719.JPG" alt="" aria-hidden="true" class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105" loading="lazy" data-astro-cid-j7pv25f6> </div> </div> <div class="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center" data-astro-cid-j7pv25f6> <a href="/galerie" class="pointer-events-auto font-myndraine text-lg text-forest transition-colors hover:text-forest/80 focus-visible:text-forest/80 no-underline" aria-label="Voir la galerie photo" data-astro-cid-j7pv25f6>
+Voir galerie
+</a> <svg class="pointer-events-auto mt-1 h-5 w-5 text-forest/80" viewBox="0 0 24 24" fill="none" aria-hidden="true" data-astro-cid-j7pv25f6> <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-j7pv25f6></path> </svg> </div> </section> <script type="module">
+    const initCarousel = () => {
+      const wrappers = document.querySelectorAll('[data-carousel-wrapper]');
+
+      wrappers.forEach((wrapper) => {
+        if (!(wrapper instanceof HTMLElement)) return;
+        if (wrapper.dataset.carouselReady === 'true') return;
+
+        const track = wrapper.querySelector('[data-carousel-track]');
+        if (!(track instanceof HTMLElement)) return;
+
+        const rawConfig = wrapper.dataset.carouselConfig;
+        if (!rawConfig) return;
+
+        let parsedConfig;
+        try {
+          parsedConfig = JSON.parse(decodeURIComponent(rawConfig));
+        } catch (error) {
+          console.warn('Impossible de parser la configuration du carrousel', error);
+          return;
+        }
+
+        const images = Array.isArray(parsedConfig.images)
+          ? parsedConfig.images.filter((img) => typeof img === 'string' && img.length)
+          : [];
+
+        if (!images.length) return;
+
+        const uniqueImages = [...new Set(images)];
+
+        const recentWindow = Math.min(
+          Math.max(Number(parsedConfig.recentWindow ?? 10) || 10, 1),
+          uniqueImages.length > 1 ? uniqueImages.length - 1 : 1
+        );
+
+        const recentSeed = Array.isArray(parsedConfig.recentSeed)
+          ? parsedConfig.recentSeed.filter((img) => typeof img === 'string' && img.length)
+          : [];
+
+        const recentQueue = recentSeed.slice(-recentWindow);
+
+        const speed = Number(parsedConfig.speed) > 0 ? Number(parsedConfig.speed) : 80;
+
+        let gap = 0;
+        const measureGap = () => {
+          const styles = window.getComputedStyle(track);
+          gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+        };
+
+        measureGap();
+
+        const pickNextImage = () => {
+          let candidates = uniqueImages.filter((img) => !recentQueue.includes(img));
+
+          if (!candidates.length) {
+            if (recentQueue.length) {
+              recentQueue.shift();
+              candidates = uniqueImages.filter((img) => !recentQueue.includes(img));
+            }
+
+            if (!candidates.length) {
+              candidates = uniqueImages;
+            }
+          }
+
+          const next = candidates[Math.floor(Math.random() * candidates.length)] ?? uniqueImages[0];
+          recentQueue.push(next);
+
+          while (recentQueue.length > recentWindow) {
+            recentQueue.shift();
+          }
+
+          return next;
+        };
+
+        let offset = 0;
+        let lastTime;
+        let rafId;
+        let isPaused = false;
+
+        const step = (time) => {
+          if (isPaused) {
+            lastTime = time;
+            rafId = requestAnimationFrame(step);
+            return;
+          }
+
+          if (lastTime === undefined) {
+            lastTime = time;
+          }
+
+          const delta = (time - lastTime) / 1000;
+          lastTime = time;
+
+          offset += delta * speed;
+
+          let firstChild = track.firstElementChild;
+
+          while (firstChild instanceof HTMLElement) {
+            const childWidth = firstChild.getBoundingClientRect().width;
+
+            if (offset >= childWidth + gap) {
+              offset -= childWidth + gap;
+
+              const nextImage = pickNextImage();
+              track.appendChild(firstChild);
+
+              if (firstChild instanceof HTMLImageElement) {
+                firstChild.src = `/images/${nextImage}`;
+              } else {
+                const img = firstChild.querySelector('img');
+                if (img instanceof HTMLImageElement) {
+                  img.src = `/images/${nextImage}`;
+                }
+              }
+
+              firstChild = track.firstElementChild;
+            } else {
+              break;
+            }
+          }
+
+          track.style.transform = `translateX(${-offset}px)`;
+          rafId = requestAnimationFrame(step);
+        };
+
+        const start = () => {
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+          }
+          lastTime = undefined;
+          rafId = requestAnimationFrame(step);
+        };
+
+        const stop = () => {
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = undefined;
+          }
+        };
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        const handleMotionChange = () => {
+          if (prefersReducedMotion.matches) {
+            isPaused = true;
+            stop();
+            track.style.transform = 'translateX(0)';
+          } else {
+            isPaused = false;
+            start();
+          }
+
+          wrapper.dataset.carouselPaused = String(isPaused);
+        };
+
+        const pause = () => {
+          isPaused = true;
+          wrapper.dataset.carouselPaused = 'true';
+        };
+
+        const resume = () => {
+          if (!prefersReducedMotion.matches) {
+            isPaused = false;
+            wrapper.dataset.carouselPaused = 'false';
+          }
+        };
+
+        wrapper.addEventListener('mouseenter', pause);
+        wrapper.addEventListener('mouseleave', resume);
+        wrapper.addEventListener('focusin', pause);
+        wrapper.addEventListener('focusout', resume);
+
+        if ('ResizeObserver' in window) {
+          const resizeObserver = new ResizeObserver(() => {
+            measureGap();
+          });
+          resizeObserver.observe(track);
+        } else {
+          window.addEventListener('resize', measureGap);
+        }
+
+        handleMotionChange();
+        prefersReducedMotion.addEventListener('change', handleMotionChange);
+
+        wrapper.dataset.carouselReady = 'true';
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCarousel, { once: true });
+    } else {
+      initCarousel();
+    }
+  </script>  </main> <footer class="mt-0 md:mt-0 border-t border-black/10"> <div class="container grid md:grid-cols-3 gap-8 py-12"> <div> <h3 class="font-display font-semibold mb-3">A.R. Euro Forêt</h3> <p class="small text-anth/80">Travaux forestiers, élagage, abattage et entretien d'espaces verts.</p> <p class="small mt-3"><strong>SIRET</strong> : 884 585 621 00011</p> <p class="small"><strong>Activité</strong> : Travaux forestiers et d’espaces verts</p> </div> <div> <h4 class="font-semibold mb-3">Contact</h4> <ul class="space-y-2"> <li><a class="text-forest" href="tel:+33600000000">+33 6 00 00 00 00</a></li> <li><a class="text-forest" href="mailto:contact@areuroforet.fr">contact@areuroforet.fr</a></li> <li><a class="text-forest" href="https://www.pagesjaunes.fr/pros/60923234">Mappy</a></li> <li><a class="text-forest" href="https://www.travaux.com/professionnel/a-r-euro-foret">Travaux.com</a></li> </ul> </div> <div> <h4 class="font-semibold mb-3">Liens</h4> <ul class="space-y-2"> <li><a class="text-anth/80 hover:text-anth" href="/mentions-legales">Mentions légales</a></li> <li><a class="text-anth/80 hover:text-anth" href="/politique-de-confidentialite">Politique de confidentialité</a></li>  </ul> </div> </div> <div class="py-6 bg-beige/60"> <div class="container small text-anth/70 flex flex-col md:flex-row gap-3 md:items-center md:justify-between"> <span>© 2025 A.R. Euro Forêt. Tous droits réservés.</span> <span>Site propulsé par Astro.</span> </div> </div> </footer> <div class="phone-bar"> <div class="container flex gap-3"> <a href="tel:+33600000000" class="call rounded-xl flex items-center justify-center gap-2 flex-1"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"> <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.3 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.15a2 2 0 0 1 2.11-.45c.84.27 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"></path> </svg>
+Appeler
+</a> <a href="/contact" class="quote text-center flex items-center justify-center gap-2 flex-1"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"> <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path> </svg>
+Devis
+</a> </div> </div> <script>
+    const els=document.querySelectorAll('[data-reveal]');
+    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}})},{threshold:.15});
+    els.forEach(el=>io.observe(el));
+  </script> </body> </html> 

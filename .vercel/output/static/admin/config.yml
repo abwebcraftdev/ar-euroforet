@@ -1,0 +1,126 @@
+backend:
+  name: git-gateway
+  branch: main
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Accueil"
+        name: "home"
+        file: "src/content/pages/home.md"
+        fields:
+          - { label: "Titre (hero)", name: "titleHero", widget: "string" }
+          - { label: "Intro", name: "intro", widget: "text" }
+          - { label: "Bullets", name: "bullets", widget: "list", field: { label: "Point", name: "point", widget: "string" } }
+  - name: "services"
+    label: "Services"
+    folder: "src/content/services"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "services/{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        pattern:
+          - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          - "Utiliser un slug en kebab-case (ex: bois-de-chauffage)"
+      - { label: "Extrait (listing)", name: "excerpt", widget: "text" }
+      - { label: "Prix (listing)", name: "price", widget: "string", required: false }
+      - { label: "Afficher 'À partir de'", name: "startingFrom", widget: "boolean", default: false, required: false }
+      - { label: "Ordre (listing)", name: "order", widget: "number", required: false }
+      - { label: "Mettre en avant", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Publié", name: "published", widget: "boolean", default: true }
+      - label: "CTA (page)"
+        name: "ctas"
+        widget: "list"
+        summary: "{{fields.label}} → {{fields.url}}"
+        max: 2
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "URL", name: "url", widget: "string" }
+          - label: "Style"
+            name: "style"
+            widget: "select"
+            options:
+              - { label: "Principal", value: "primary" }
+              - { label: "Secondaire", value: "secondary" }
+              - { label: "Ghost", value: "ghost" }
+            required: false
+      - label: "Carte principale"
+        name: "mainCard"
+        widget: "object"
+        fields:
+          - { label: "Titre", name: "title", widget: "string", required: false }
+          - { label: "Texte", name: "body", widget: "markdown" }
+          - { label: "Prix", name: "price", widget: "string", required: false }
+          - { label: "Afficher 'À partir de'", name: "startingFrom", widget: "boolean", default: false, required: false }
+          - label: "CTA"
+            name: "ctas"
+            widget: "list"
+            summary: "{{fields.label}} → {{fields.url}}"
+            max: 2
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - label: "Style"
+                name: "style"
+                widget: "select"
+                options:
+                  - { label: "Principal", value: "primary" }
+                  - { label: "Secondaire", value: "secondary" }
+                  - { label: "Ghost", value: "ghost" }
+                required: false
+      - label: "Cartes additionnelles"
+        name: "extraCards"
+        widget: "list"
+        summary: "{{fields.title}}"
+        max: 12
+        required: false
+        fields:
+          - { label: "Titre", name: "title", widget: "string", required: false }
+          - { label: "Texte", name: "body", widget: "markdown", required: false }
+          - { label: "Prix", name: "price", widget: "string", required: false }
+          - { label: "Afficher 'À partir de'", name: "startingFrom", widget: "boolean", default: false, required: false }
+          - label: "CTA"
+            name: "ctas"
+            widget: "list"
+            summary: "{{fields.label}} → {{fields.url}}"
+            max: 2
+            required: false
+            fields:
+              - { label: "Label", name: "label", widget: "string", required: false }
+              - { label: "URL", name: "url", widget: "string", required: false }
+              - label: "Style"
+                name: "style"
+                widget: "select"
+                options:
+                  - { label: "Principal", value: "primary" }
+                  - { label: "Secondaire", value: "secondary" }
+                  - { label: "Ghost", value: "ghost" }
+                required: false
+      - { label: "Catégorie d'images", name: "imageCategoryKey", widget: "string", required: false, hint: "Doit correspondre à une clé de src/data/image-categories.ts" }
+      - label: "Image de couverture"
+        name: "heroImage"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Texte alternatif", name: "alt", widget: "string", required: false }
+      - label: "Galerie (override)"
+        name: "galleryOverride"
+        widget: "list"
+        summary: "{{fields.src}}"
+        hint: "Remplace ou complète la catégorie d'images au-dessus"
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Texte alternatif", name: "alt", widget: "string", required: false }
+      - { label: "Meta title", name: "metaTitle", widget: "string", required: false }
+      - { label: "Meta description", name: "metaDescription", widget: "text", required: false }
+      - { label: "Image Open Graph", name: "openGraphImage", widget: "image", required: false }

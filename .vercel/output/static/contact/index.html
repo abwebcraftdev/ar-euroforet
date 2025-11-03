@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.jpg" type="image/jpeg"><title>Contact — A.R. Euro Forêt</title><meta name="description" content="Besoin d'un devis, d'un conseil ou d'une intervention ? Contactez-nous."><link rel="canonical" href="https://www.areuroforet.fr/contact/"><meta property="og:type" content="website"><meta property="og:title" content="Contact — A.R. Euro Forêt"><meta property="og:description" content="Besoin d'un devis, d'un conseil ou d'une intervention ? Contactez-nous."><meta property="og:url" content="https://www.areuroforet.fr/contact/"><meta property="og:image" content="/images/og-default.png"><script type="application/ld+json">{JSON.stringify(data)}</script><link rel="stylesheet" href="/_astro/bois-de-chauffage.D2PoyCh6.css"></head> <body class="min-h-screen flex flex-col"> <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white border px-3 py-2 rounded">Aller au contenu</a> <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-black/10"> <div class="container flex items-center justify-between h-16"> <a href="/" class="flex items-center gap-3"> <img src="/logo-ar-foret.jpeg" alt="Logo A.R. Euro Forêt" width="28" height="28" class="object-contain"> <span class="font-display font-bold text-lg">A.R. Euro Forêt</span> </a> <nav class="hidden md:flex items-center gap-6"> <a href="/" class="text-anth/80 hover:text-anth">Accueil</a><a href="/services" class="text-anth/80 hover:text-anth">Services</a><a href="/bois-de-chauffage" class="text-anth/80 hover:text-anth">Bois de chauffage</a><a href="/zone-d_intervention" class="text-anth/80 hover:text-anth">Zone d’intervention</a><a href="/galerie" class="text-anth/80 hover:text-anth">Galerie</a><a href="/contact" class="text-anth/80 hover:text-anth">Contact</a>  </nav> <div class="hidden md:flex items-center gap-3"> <a href="tel:+33600000000" class="btn btn-ghost">Appeler</a> <a href="/contact" class="btn btn-primary">Demander un devis</a> </div> <button id="mobile-menu-toggle" class="md:hidden p-2" type="button" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false"> <svg width="24" height="24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"></path></svg> </button> </div> <div id="mobile-nav" class="md:hidden hidden border-t border-black/10" aria-hidden="true"> <div class="container py-4 flex flex-col gap-4"> <a href="/" class="text-anth">Accueil</a><a href="/services" class="text-anth">Services</a><a href="/bois-de-chauffage" class="text-anth">Bois de chauffage</a><a href="/zone-d_intervention" class="text-anth">Zone d’intervention</a><a href="/galerie" class="text-anth">Galerie</a><a href="/contact" class="text-anth">Contact</a>  <div class="flex flex-col sm:flex-row gap-3"> <a href="tel:+33600000000" class="btn btn-ghost flex-1 w-full sm:w-auto">Appeler</a> <a href="/contact" class="btn btn-primary flex-1 w-full sm:w-auto">Demander un devis</a> </div> </div> </div> </header> <script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (toggle && mobileNav) {
+    const getLinks = () => Array.from(mobileNav.querySelectorAll('a'));
+
+    const closeMenu = () => {
+      mobileNav.classList.add('hidden');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    };
+
+    const openMenu = () => {
+      mobileNav.classList.remove('hidden');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      const firstLink = mobileNav.querySelector('a');
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    getLinks().forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    mobileNav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+  }
+</script> <main id="main" class="flex-1 pb-24 md:pb-0">  <section class="section pb-10"> <div class="container"> <h1 class="text-3xl md:text-5xl font-display font-extrabold">Contact</h1> <p class="lead mt-3">Besoin d’un devis, d’un conseil ou d’une intervention ? Contactez-nous directement, nous vous répondrons dans les plus brefs délais.</p> </div> </section> <section class="section pt-0 section-alt" style="background-color: rgba(235,168,0,0.5);"> <div class="container grid md:grid-cols-2 gap-12 py-10"> <div data-reveal> <h2 class="font-semibold">Contact direct</h2> <p class="mt-2"> <a class="text-forest underline" href="tel:+33600000000">+33 6 00 00 00 00</a> </p> <p class="mt-1"> <a class="text-forest underline" href="mailto:contact@areuroforet.fr">contact@areuroforet.fr</a> </p> <p class="small mt-4 text-anth/70">Horaires indicatifs : Lun–Ven 8:00–18:00</p> </div> <div data-reveal> <h2 class="font-semibold">Formulaire</h2> <form id="contact-form" name="contact" method="POST" class="space-y-4" enctype="multipart/form-data" netlify-honeypot="bot-field" action="/api/contact"> <input type="hidden" name="form-name" value="contact">  <p class="hidden"> <label>Ne pas remplir si vous êtes humain: <input name="bot-field"></label> </p> <div class="grid md:grid-cols-2 gap-4"> <label class="block"> <span class="small">Nom*</span> <input class="mt-1 block w-full" type="text" name="nom" required> </label> <label class="block"> <span class="small">Téléphone*</span> <input class="mt-1 block w-full" type="tel" name="telephone" required> </label> </div> <div class="grid md:grid-cols-2 gap-4"> <label class="block"> <span class="small">Email</span> <input class="mt-1 block w-full" type="email" name="email"> </label> <label class="block"> <span class="small">Code postal*</span> <input class="mt-1 block w-full" type="text" name="code_postal" required> </label> </div> <label class="block"> <span class="small">Service souhaité</span> <select class="mt-1 block w-full" name="service_souhaite"> <option>Élagage & Abattage</option> <option>Travaux forestiers</option> <option>Débroussaillage & Défrichage</option> <option>Bois de chauffage</option> <option>Bois sur pied</option> <option>Autre</option> </select> </label> <label class="block"> <span class="small">Message</span> <textarea class="mt-1 block w-full" name="message" rows="5"></textarea> </label> <label class="block"> <span class="small">Photos (3 max, 10 Mo)</span> <input class="mt-1 block w-full" type="file" name="photos" accept="image/*" multiple> </label> <div class="flex flex-col sm:flex-row gap-3"> <button class="btn btn-primary w-full sm:w-auto" type="submit">Envoyer ma demande</button> <a href="tel:+33600000000" class="btn btn-ghost w-full sm:w-auto" aria-label="Appeler A.R. Euro Forêt">Appeler maintenant</a> </div> <p class="small text-anth/60">
+En envoyant, vous acceptez la <a class="text-forest underline" href="/politique-de-confidentialite">politique de
+    confidentialité</a>.
+</p> <p id="contact-form-status" class="small"></p> </form> <script>
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("contact-form-status");
+
+    if (form) {
+      const submitButton = form.querySelector("button[type='submit']");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (status) {
+          status.textContent = "";
+          status.classList.remove("text-red-600", "text-green-600");
+        }
+
+        const formData = new FormData(form);
+
+        if (submitButton) {
+          submitButton.dataset.originalLabel = submitButton.textContent || "";
+          submitButton.disabled = true;
+          submitButton.textContent = "Envoi en cours...";
+        }
+
+        try {
+          const response = await fetch(form.action || "/api/contact", {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+
+          let payload: Record<string, any> | null = null;
+          try {
+            payload = await response.json();
+          } catch (parseError) {
+            payload = null;
+          }
+
+          if (response.ok && payload?.success) {
+            form.reset();
+            if (status) {
+              status.textContent = "Merci, votre demande a bien été envoyée.";
+              status.classList.add("text-green-600");
+            }
+          } else if (status) {
+            status.textContent = payload?.message || "Impossible d'envoyer la demande, veuillez réessayer.";
+            status.classList.add("text-red-600");
+          }
+        } catch (err) {
+          if (status) {
+            status.textContent = "Une erreur inattendue est survenue. Merci de réessayer.";
+            status.classList.add("text-red-600");
+          }
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = submitButton.dataset.originalLabel || "Envoyer ma demande";
+          }
+        }
+      });
+    }
+  </script>  </div> </div> </section>  </main> <footer class="mt-0 md:mt-0 border-t border-black/10"> <div class="container grid md:grid-cols-3 gap-8 py-12"> <div> <h3 class="font-display font-semibold mb-3">A.R. Euro Forêt</h3> <p class="small text-anth/80">Travaux forestiers, élagage, abattage et entretien d'espaces verts.</p> <p class="small mt-3"><strong>SIRET</strong> : 884 585 621 00011</p> <p class="small"><strong>Activité</strong> : Travaux forestiers et d’espaces verts</p> </div> <div> <h4 class="font-semibold mb-3">Contact</h4> <ul class="space-y-2"> <li><a class="text-forest" href="tel:+33600000000">+33 6 00 00 00 00</a></li> <li><a class="text-forest" href="mailto:contact@areuroforet.fr">contact@areuroforet.fr</a></li> <li><a class="text-forest" href="https://www.pagesjaunes.fr/pros/60923234">Mappy</a></li> <li><a class="text-forest" href="https://www.travaux.com/professionnel/a-r-euro-foret">Travaux.com</a></li> </ul> </div> <div> <h4 class="font-semibold mb-3">Liens</h4> <ul class="space-y-2"> <li><a class="text-anth/80 hover:text-anth" href="/mentions-legales">Mentions légales</a></li> <li><a class="text-anth/80 hover:text-anth" href="/politique-de-confidentialite">Politique de confidentialité</a></li>  </ul> </div> </div> <div class="py-6 bg-beige/60"> <div class="container small text-anth/70 flex flex-col md:flex-row gap-3 md:items-center md:justify-between"> <span>© 2025 A.R. Euro Forêt. Tous droits réservés.</span> <span>Site propulsé par Astro.</span> </div> </div> </footer> <div class="phone-bar"> <div class="container flex gap-3"> <a href="tel:+33600000000" class="call rounded-xl flex items-center justify-center gap-2 flex-1"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"> <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.3 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.15a2 2 0 0 1 2.11-.45c.84.27 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"></path> </svg>
+Appeler
+</a> <a href="/contact" class="quote text-center flex items-center justify-center gap-2 flex-1"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"> <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path> </svg>
+Devis
+</a> </div> </div> <script>
+    const els=document.querySelectorAll('[data-reveal]');
+    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}})},{threshold:.15});
+    els.forEach(el=>io.observe(el));
+  </script> </body> </html>

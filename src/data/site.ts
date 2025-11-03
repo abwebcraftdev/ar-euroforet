@@ -6,8 +6,8 @@ export const SITE = {
   phoneE164: "+33600000000",
   siret: "884 585 621 00011",
   activity: "Travaux forestiers et d’espaces verts",
-  mappyUrl: "#",
-  travauxUrl: "#",
+  mappyUrl: "https://www.pagesjaunes.fr/pros/60923234",
+  travauxUrl: "https://www.travaux.com/professionnel/a-r-euro-foret",
   areaServed: ["Votre département", "Vos communes"],
   address: {
     streetAddress: "",

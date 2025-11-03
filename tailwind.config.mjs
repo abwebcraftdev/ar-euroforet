@@ -28,6 +28,7 @@ export default {
           "Segoe UI Symbol",
         ],
         display: [
+          "Myndraine",
           "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",

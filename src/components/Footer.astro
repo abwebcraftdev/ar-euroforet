@@ -2,7 +2,7 @@
 import { SITE } from "../data/site";
 import { ADMIN_LINK_ENABLED } from "../lib/flags";
 ---
-<footer class="mt-24 border-t border-black/10">
+<footer class="mt-0 md:mt-0 border-t border-black/10">
   <div class="container grid md:grid-cols-3 gap-8 py-12">
     <div>
       <h3 class="font-display font-semibold mb-3">A.R. Euro Forêt</h3>
@@ -15,8 +15,8 @@ import { ADMIN_LINK_ENABLED } from "../lib/flags";
       <ul class="space-y-2">
         <li><a class="text-forest" href={"tel:" + SITE.phoneE164}>{SITE.phoneDisplay}</a></li>
         <li><a class="text-forest" href={"mailto:" + SITE.email}>{SITE.email}</a></li>
-        <li><a class="text-forest" href="#">Mappy</a></li>
-        <li><a class="text-forest" href="#">Travaux.com</a></li>
+        <li><a class="text-forest" href={SITE.mappyUrl}>Mappy</a></li>
+        <li><a class="text-forest" href={SITE.travauxUrl}>Travaux.com</a></li>
       </ul>
     </div>
     <div>

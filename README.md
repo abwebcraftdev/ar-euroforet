@@ -17,6 +17,30 @@ npm install
 npm run dev
 ```
 
+## Formulaire de contact (SMTP)
+Le formulaire `/contact` envoie les demandes via un handler `/api/contact` déployé sur Vercel (Nodemailer).
+
+1. Définissez les variables dans `.env.local` (et dans Vercel → Project Settings → Environment Variables) :
+   ```
+   PUBLIC_CONTACT_ENDPOINT=api
+   PUBLIC_FORMSUBMIT_EMAIL=adresse@secours.com   # fallback FormSubmit
+   CONTACT_TO=votre-adresse@exemple.com
+   CONTACT_FROM="A.R. Euro Forêt <expediteur@exemple.com>"
+   SMTP_HOST=smtp.votre-fournisseur.com
+   SMTP_PORT=465
+   SMTP_USER=expediteur@exemple.com
+   SMTP_PASS=mot-de-passe-ou-app-password
+   ```
+   - `SMTP_PORT=465` active un transport sécurisé (SSL). Utilisez `587` pour STARTTLS si besoin.
+   - Gmail : activez la validation en 2 étapes puis créez un *mot de passe d’application*.
+2. Lancez `npm run dev`, envoyez un formulaire test. En production sur Vercel, les mêmes variables doivent être présentes.
+3. En cas de souci (SMTP indisponible), retirez `PUBLIC_CONTACT_ENDPOINT=api` pour repasser sur FormSubmit.
+
+Le mail reçu inclut désormais :
+- un sujet du type `[Lead A.R. Euro Forêt] Nom · Service · CP · PJ — #IDhorodaté`;
+- un corps HTML structuré (actions rapides, tableau récap, bloc “Réponse client” repliable) et une version texte équivalente ;
+- la liste des pièces jointes (fichiers transmis avec le message) et un `Reply-To` positionné sur l’email renseigné.
+
 ## Plans Basic / CMS (manuel)
 1. Choisissez votre plan :
    - Basic : `cp .env.basic .env`
@@ -45,7 +69,7 @@ Puis ouvrez `http://localhost:4323/admin/` → "Login" (mode local sans OAuth).
    - Allez sur [vercel.com](https://vercel.com)
    - Importez votre dépôt Git
    - Vercel détectera automatiquement Astro grâce à `vercel.json`
-   - **Note** : Ce site utilise `output: 'static'`, donc aucun adapter Vercel n'est nécessaire
+   - **Note** : Le projet est en mode `output: 'hybrid'` avec l’adapter `@astrojs/vercel/serverless` pour supporter l’API `/api/contact`
 3. **Variables d'environnement** (optionnel, pour activer le CMS) :
    - Dans les paramètres du projet Vercel, ajoutez :
      - `PUBLIC_ENABLE_CMS=true` (ou `PUBLIC_PLAN=cms`)
@@ -79,9 +103,18 @@ Pour utiliser le CMS sur Vercel, vous devez configurer l'authentification GitHub
 
 ## Schéma de contenu
 - **Services** : `src/content/services/*.md`
-  - `title`, `excerpt`, `order`, `featured`, `published`, `body`
+  - `title`, `slug`, `excerpt`, `price`, `startingFrom`, `order`, `featured`, `published`
+  - `ctas[]`, `mainCard{title, body, price, startingFrom, ctas[]}`, `extraCards[]`
+  - `imageCategoryKey`, `heroImage`, `galleryOverride`, `metaTitle`, `metaDescription`, `openGraphImage`
 - **Accueil** : `src/content/pages/home.md`
   - `titleHero`, `intro`, `bullets[]`
+
+## Services & CMS
+- **Ajouter / modifier un service** : ouvrez `/admin`, collection "Services". Renseignez les champs obligatoires (titre, slug, extrait). Les CTA sont limités à 2 entrées par carte et par page. Utilisez "Carte principale" pour le contenu principal et "Cartes additionnelles" pour ajouter des blocs optionnels.
+- **CTA** : le premier CTA défini est réutilisé pour les boutons de la page et des listes. Gardez au maximum deux liens (téléphone, devis, page interne).
+- **Images & galeries** : la clé `imageCategoryKey` se connecte à `src/data/image-categories.ts`. Si la catégorie est vide ou absente, l’image `heroImage` (optionnelle) est utilisée en fallback. Vous pouvez surcharger ou compléter la galerie avec `galleryOverride`.
+- **Ajouter une catégorie d’images** : éditez `src/data/image-categories.ts`, ajoutez un objet `{ id, title, images: [] }` pointant vers des fichiers présents dans `public/images`.
+- **Utilitaires développeur** : `src/lib/services.ts` expose `getAllServices()`, `getServiceBySlug()` et `getServiceStaticPaths()` pour consommer les données enrichies (CTA, cartes, galerie).
 
 ## Où le CMS s’affiche
 - `/admin` → interface Decap CMS

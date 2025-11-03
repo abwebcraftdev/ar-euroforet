@@ -1,10 +1,9 @@
 ---
 import Layout from "../../components/Layout.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
-import { getCollection } from "astro:content";
+import { getAllServices } from "../../lib/services";
 
-const services = await getCollection('services', s => s.data.published !== false);
-const sorted = services.sort((a,b)=>(a.data.order??999)-(b.data.order??999));
+const services = await getAllServices();
 ---
 <Layout
   title="Nos services — A.R. Euro Forêt"
@@ -14,13 +13,14 @@ const sorted = services.sort((a,b)=>(a.data.order??999)-(b.data.order??999));
     <div class="container space-y-6">
       <h1 class="text-3xl md:text-5xl font-display font-extrabold">Nos services</h1>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sorted.map((s) => (
+        {services.map((service) => (
           <ServiceCard
-            title={s.data.title}
-            description={s.data.excerpt ?? ""}
-            href={`/services/${s.slug}`}
-            ctaType={s.data.ctaType}
-            ctaLabel={s.data.ctaLabel}
+            title={service.title}
+            description={service.excerpt}
+            href={`/services/${service.slug}`}
+            price={service.price ?? service.mainCard.price}
+            startingFrom={service.startingFrom ?? service.mainCard.startingFrom}
+            cta={service.heroCtas[0] ?? service.mainCard.ctas[0]}
           />
         ))}
       </div>

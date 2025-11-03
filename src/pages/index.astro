@@ -1,40 +1,144 @@
 ---
 import Layout from "../components/Layout.astro";
 import ServiceCard from "../components/ServiceCard.astro";
-import Testimonial from "../components/Testimonial.astro";
 import { SITE } from "../data/site";
-import { getCollection, getEntryBySlug } from "astro:content";
+import { getEntryBySlug } from "astro:content";
+import { getAllServices } from "../lib/services";
 
 const home = await getEntryBySlug('pages', 'home');
-const services = await getCollection('services', s => s.data.published !== false);
+const services = await getAllServices();
 const featured = services
-  .filter(s => s.data.featured)
-  .sort((a,b)=>(a.data.order??999)-(b.data.order??999))
-  .slice(0,3);
+  .filter((service) => service.featured)
+  .slice(0, 6);
+
+// Liste des images pour le carrousel (excluant les placeholders et home.JPG)
+const carouselImages = [
+  'IMG_9680.JPG',
+  'IMG_9681.JPG',
+  'IMG_9682.JPG',
+  'IMG_9683.JPG',
+  'IMG_9684.JPG',
+  'IMG_9685.JPG',
+  'IMG_9686.JPG',
+  'IMG_9687.JPG',
+  'IMG_9689.JPG',
+  'IMG_9690.JPG',
+  'IMG_9691.JPG',
+  'IMG_9692.JPG',
+  'IMG_9693.JPG',
+  'IMG_9695.JPG',
+  'IMG_9696.JPG',
+  'IMG_9697.JPG',
+  'IMG_9698.JPG',
+  'IMG_9699.JPG',
+  'IMG_9700.JPG',
+  'IMG_9701.JPG',
+  'IMG_9702.JPG',
+  'IMG_9703.JPG',
+  'IMG_9704.JPG',
+  'IMG_9705.JPG',
+  'IMG_9706.JPG',
+  'IMG_9707.JPG',
+  'IMG_9708.JPG',
+  'IMG_9709.JPG',
+  'IMG_9710.JPG',
+  'IMG_9711.JPG',
+  'IMG_9712.JPG',
+  'IMG_9714.JPG',
+  'IMG_9715.JPG',
+  'IMG_9716.JPG',
+  'IMG_9717.JPG',
+  'IMG_9718.JPG',
+  'IMG_9719.JPG',
+  'IMG_9720.JPG',
+  'IMG_9721.JPG',
+];
+
+const buildTrackImages = (source: string[], targetCount: number, recentWindow = 10) => {
+  if (!source.length) return [] as string[];
+
+  const windowSize = Math.min(Math.max(recentWindow, 1), Math.max(source.length - 1, 1));
+  const track: string[] = [];
+  const recent: string[] = [];
+
+  const pickRandom = (list: string[]) => list[Math.floor(Math.random() * list.length)] ?? source[0];
+
+  const availableImages = () => source.filter((img) => !recent.includes(img));
+
+  while (track.length < targetCount) {
+    let candidates = availableImages();
+
+    if (!candidates.length) {
+      if (recent.length) {
+        recent.shift();
+        candidates = availableImages();
+      }
+
+      if (!candidates.length) {
+        candidates = source;
+      }
+    }
+
+    const next = pickRandom(candidates);
+    track.push(next);
+    recent.push(next);
+
+    if (recent.length > windowSize) {
+      recent.shift();
+    }
+  }
+
+  return track;
+};
+
+const RECENT_WINDOW = Math.min(10, Math.max(carouselImages.length - 1, 1));
+const INITIAL_TRACK_LENGTH = Math.min(carouselImages.length, RECENT_WINDOW + 3);
+const trackImages = buildTrackImages(carouselImages, INITIAL_TRACK_LENGTH, RECENT_WINDOW);
+const CAROUSEL_SPEED = 60;
+const carouselConfig = encodeURIComponent(JSON.stringify({
+  images: carouselImages,
+  recentWindow: RECENT_WINDOW,
+  recentSeed: trackImages.slice(-RECENT_WINDOW),
+  speed: CAROUSEL_SPEED,
+}));
 ---
 <Layout
   title="A.R. Euro Forêt — Travaux forestiers, élagage & abattage"
   description="Entreprise d’élagage, abattage et travaux forestiers. Interventions sécurisées pour particuliers, professionnels et collectivités. Devis gratuit."
 >
-  <section class="section pt-8 md:pt-16">
-    <div class="container grid md:grid-cols-2 gap-10 items-center">
+  <section class="relative min-h-[70vh] flex items-start overflow-hidden pt-8 md:pt-16">
+    <picture class="absolute inset-0 -z-10">
+      <source
+        srcset="/images/home-1920.JPG 1920w, /images/home-1280.JPG 1280w, /images/home-640.JPG 640w"
+        sizes="(min-width: 1024px) 100vw, 100vw"
+        type="image/jpeg"
+      />
+      <img
+        src="/images/home-1280.JPG"
+        alt=""
+        class="h-full w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+    <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+    <div class="container relative z-10 max-w-3xl">
       <div data-reveal>
-        <h1 class="text-3xl md:text-5xl font-display font-extrabold leading-tight">
+        <h1 class="text-3xl md:text-5xl font-display font-extrabold leading-tight text-white drop-shadow-lg">
           {home?.data.titleHero ?? "Élagage, abattage & travaux forestiers — interventions sécurisées"}
         </h1>
-        <p class="lead mt-4">{home?.data.intro}</p>
+        <p class="text-lg mt-8 text-white drop-shadow max-w-full sm:max-w-[60%]">
+          {home?.data.intro}
+        </p>
         {home?.data.bullets && (
-          <ul class="mt-6 space-y-2 text-anth/80">
+          <ul class="mt-6 space-y-2 text-white drop-shadow">
             {home.data.bullets.map((b:string) => <li>• {b}</li>)}
           </ul>
         )}
-        <div class="mt-8 flex gap-3">
-          <a href="/contact" class="btn btn-primary">Demander un devis</a>
-          <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost" aria-label={`Appeler ${SITE.name}`}>Appeler maintenant</a>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <a href="/contact" class="btn btn-primary w-full sm:w-auto">Demander un devis</a>
+          <a href={"tel:" + SITE.phoneE164} class="btn bg-white/10 text-white border-white/30 hover:bg-white/20 backdrop-blur-sm w-full sm:w-auto" aria-label={`Appeler ${SITE.name}`}>Appeler maintenant</a>
         </div>
-      </div>
-      <div class="relative" data-reveal>
-        <img src="/images/hero.svg" alt="Intervention d’élagage en sécurité" class="w-full h-auto drop-shadow" loading="eager" />
       </div>
     </div>
   </section>
@@ -43,13 +147,14 @@ const featured = services
     <div class="container">
       <h2 class="text-2xl md:text-3xl font-display font-bold mb-6" data-reveal>Nos services</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featured.map((s) => (
+        {featured.map((service) => (
           <ServiceCard
-            title={s.data.title}
-            description={s.data.excerpt ?? ""}
-            href={`/services/${s.slug}`}
-            ctaType={s.data.ctaType}
-            ctaLabel={s.data.ctaLabel}
+            title={service.title}
+            description={service.excerpt}
+            href={`/services/${service.slug}`}
+            price={service.price ?? service.mainCard.price}
+            startingFrom={service.startingFrom ?? service.mainCard.startingFrom}
+            cta={service.heroCtas[0] ?? service.mainCard.ctas[0]}
           />
         ))}
       </div>
@@ -59,11 +164,256 @@ const featured = services
     </div>
   </section>
 
-  <section class="section section-alt">
-    <div class="container grid md:grid-cols-3 gap-6">
-      <Testimonial quote="Un travail rapide et propre, je recommande." />
-      <Testimonial quote="Très professionnel et à l'écoute, excellent rapport qualité-prix." />
-      <Testimonial quote="Intervention sérieuse, je referai appel à eux sans hésiter." />
+
+
+  <section class="section section-alt overflow-hidden py-8 relative" style="background-color: rgba(235,168,0,0.3)">
+    <div
+      class="carousel-wrapper relative w-full h-48 sm:h-56 md:h-64 overflow-hidden"
+      data-carousel-wrapper
+      data-carousel-config={carouselConfig}
+      tabindex="0"
+      aria-label="Galerie photos des réalisations"
+    >
+      <div
+        class="carousel-track flex gap-4"
+        data-carousel-track
+      >
+        {trackImages.map((img) => (
+          <img
+            src={`/images/${img}`}
+            alt=""
+            aria-hidden="true"
+            class="carousel-img flex-shrink-0 w-40 sm:w-52 md:w-64 h-40 sm:h-52 md:h-64 object-cover rounded-xl transition-transform duration-500 ease-out hover:scale-105"
+            loading="lazy"
+          />
+        ))}
+      </div>
+    </div>
+
+    <div class="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center">
+      <a
+        href="/galerie"
+        class="pointer-events-auto font-myndraine text-lg text-forest transition-colors hover:text-forest/80 focus-visible:text-forest/80 no-underline"
+        aria-label="Voir la galerie photo"
+      >
+        Voir galerie
+      </a>
+      <svg class="pointer-events-auto mt-1 h-5 w-5 text-forest/80" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </section>
+
+  <script type="module">
+    const initCarousel = () => {
+      const wrappers = document.querySelectorAll('[data-carousel-wrapper]');
+
+      wrappers.forEach((wrapper) => {
+        if (!(wrapper instanceof HTMLElement)) return;
+        if (wrapper.dataset.carouselReady === 'true') return;
+
+        const track = wrapper.querySelector('[data-carousel-track]');
+        if (!(track instanceof HTMLElement)) return;
+
+        const rawConfig = wrapper.dataset.carouselConfig;
+        if (!rawConfig) return;
+
+        let parsedConfig;
+        try {
+          parsedConfig = JSON.parse(decodeURIComponent(rawConfig));
+        } catch (error) {
+          console.warn('Impossible de parser la configuration du carrousel', error);
+          return;
+        }
+
+        const images = Array.isArray(parsedConfig.images)
+          ? parsedConfig.images.filter((img) => typeof img === 'string' && img.length)
+          : [];
+
+        if (!images.length) return;
+
+        const uniqueImages = [...new Set(images)];
+
+        const recentWindow = Math.min(
+          Math.max(Number(parsedConfig.recentWindow ?? 10) || 10, 1),
+          uniqueImages.length > 1 ? uniqueImages.length - 1 : 1
+        );
+
+        const recentSeed = Array.isArray(parsedConfig.recentSeed)
+          ? parsedConfig.recentSeed.filter((img) => typeof img === 'string' && img.length)
+          : [];
+
+        const recentQueue = recentSeed.slice(-recentWindow);
+
+        const speed = Number(parsedConfig.speed) > 0 ? Number(parsedConfig.speed) : 80;
+
+        let gap = 0;
+        const measureGap = () => {
+          const styles = window.getComputedStyle(track);
+          gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+        };
+
+        measureGap();
+
+        const pickNextImage = () => {
+          let candidates = uniqueImages.filter((img) => !recentQueue.includes(img));
+
+          if (!candidates.length) {
+            if (recentQueue.length) {
+              recentQueue.shift();
+              candidates = uniqueImages.filter((img) => !recentQueue.includes(img));
+            }
+
+            if (!candidates.length) {
+              candidates = uniqueImages;
+            }
+          }
+
+          const next = candidates[Math.floor(Math.random() * candidates.length)] ?? uniqueImages[0];
+          recentQueue.push(next);
+
+          while (recentQueue.length > recentWindow) {
+            recentQueue.shift();
+          }
+
+          return next;
+        };
+
+        let offset = 0;
+        let lastTime;
+        let rafId;
+        let isPaused = false;
+
+        const step = (time) => {
+          if (isPaused) {
+            lastTime = time;
+            rafId = requestAnimationFrame(step);
+            return;
+          }
+
+          if (lastTime === undefined) {
+            lastTime = time;
+          }
+
+          const delta = (time - lastTime) / 1000;
+          lastTime = time;
+
+          offset += delta * speed;
+
+          let firstChild = track.firstElementChild;
+
+          while (firstChild instanceof HTMLElement) {
+            const childWidth = firstChild.getBoundingClientRect().width;
+
+            if (offset >= childWidth + gap) {
+              offset -= childWidth + gap;
+
+              const nextImage = pickNextImage();
+              track.appendChild(firstChild);
+
+              if (firstChild instanceof HTMLImageElement) {
+                firstChild.src = `/images/${nextImage}`;
+              } else {
+                const img = firstChild.querySelector('img');
+                if (img instanceof HTMLImageElement) {
+                  img.src = `/images/${nextImage}`;
+                }
+              }
+
+              firstChild = track.firstElementChild;
+            } else {
+              break;
+            }
+          }
+
+          track.style.transform = `translateX(${-offset}px)`;
+          rafId = requestAnimationFrame(step);
+        };
+
+        const start = () => {
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+          }
+          lastTime = undefined;
+          rafId = requestAnimationFrame(step);
+        };
+
+        const stop = () => {
+          if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = undefined;
+          }
+        };
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        const handleMotionChange = () => {
+          if (prefersReducedMotion.matches) {
+            isPaused = true;
+            stop();
+            track.style.transform = 'translateX(0)';
+          } else {
+            isPaused = false;
+            start();
+          }
+
+          wrapper.dataset.carouselPaused = String(isPaused);
+        };
+
+        const pause = () => {
+          isPaused = true;
+          wrapper.dataset.carouselPaused = 'true';
+        };
+
+        const resume = () => {
+          if (!prefersReducedMotion.matches) {
+            isPaused = false;
+            wrapper.dataset.carouselPaused = 'false';
+          }
+        };
+
+        wrapper.addEventListener('mouseenter', pause);
+        wrapper.addEventListener('mouseleave', resume);
+        wrapper.addEventListener('focusin', pause);
+        wrapper.addEventListener('focusout', resume);
+
+        if ('ResizeObserver' in window) {
+          const resizeObserver = new ResizeObserver(() => {
+            measureGap();
+          });
+          resizeObserver.observe(track);
+        } else {
+          window.addEventListener('resize', measureGap);
+        }
+
+        handleMotionChange();
+        prefersReducedMotion.addEventListener('change', handleMotionChange);
+
+        wrapper.dataset.carouselReady = 'true';
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCarousel, { once: true });
+    } else {
+      initCarousel();
+    }
+  </script>
 </Layout>
+
+<style>
+  .carousel-wrapper {
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .carousel-wrapper:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 4px;
+  }
+
+  .carousel-track {
+    will-change: transform;
+    transform: translateX(0);
+  }
+</style>

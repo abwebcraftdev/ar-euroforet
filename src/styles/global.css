@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Myndraine';
+  src: url('/fonts/Myndraine.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --green: #2E4F2F;
   --brown: #8B5A2B;
@@ -17,6 +25,11 @@ html {
 
 body {
   @apply font-sans text-anth bg-white;
+}
+
+/* Font utility for Myndraine */
+.font-myndraine {
+  font-family: 'Myndraine', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 h1,
@@ -43,7 +56,7 @@ h4 {
 }
 
 .section {
-  @apply py-16 md:py-24;
+  @apply py-12 md:py-24;
 }
 
 .section-alt {

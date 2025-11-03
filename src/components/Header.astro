@@ -6,15 +6,14 @@ const nav = [
   { href: "/services", label: "Services" },
   { href: "/bois-de-chauffage", label: "Bois de chauffage" },
   { href: "/zone-d_intervention", label: "Zone d’intervention" },
+  { href: "/galerie", label: "Galerie" },
   { href: "/contact", label: "Contact" },
 ];
 ---
 <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-black/10">
   <div class="container flex items-center justify-between h-16">
     <a href="/" class="flex items-center gap-3">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 17l-5.5 2.5 1-6.3L3 8.9 9 8l3-6z" fill="#2E4F2F"/>
-      </svg>
+      <img src="/logo-ar-foret.jpeg" alt="Logo A.R. Euro Forêt" width="28" height="28" class="object-contain" />
       <span class="font-display font-bold text-lg">A.R. Euro Forêt</span>
     </a>
     <nav class="hidden md:flex items-center gap-6">
@@ -25,18 +24,76 @@ const nav = [
       <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost">Appeler</a>
       <a href="/contact" class="btn btn-primary">Demander un devis</a>
     </div>
-    <button class="md:hidden p-2" aria-label="Menu" onclick="document.getElementById('mobile-nav')?.classList.toggle('hidden')">
+    <button
+      id="mobile-menu-toggle"
+      class="md:hidden p-2"
+      type="button"
+      aria-label="Menu"
+      aria-controls="mobile-nav"
+      aria-expanded="false"
+    >
       <svg width="24" height="24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div id="mobile-nav" class="md:hidden hidden border-t border-black/10">
+  <div id="mobile-nav" class="md:hidden hidden border-t border-black/10" aria-hidden="true">
     <div class="container py-4 flex flex-col gap-4">
       {nav.map((n) => <a href={n.href} class="text-anth">{n.label}</a>)}
       {ADMIN_LINK_ENABLED && <a href="/admin/" class="text-anth">Admin</a>}
-      <div class="flex gap-3">
-        <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost flex-1">Appeler</a>
-        <a href="/contact" class="btn btn-primary flex-1">Demander un devis</a>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href={"tel:" + SITE.phoneE164} class="btn btn-ghost flex-1 w-full sm:w-auto">Appeler</a>
+        <a href="/contact" class="btn btn-primary flex-1 w-full sm:w-auto">Demander un devis</a>
       </div>
     </div>
   </div>
 </header>
+<script is:inline>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (toggle && mobileNav) {
+    const getLinks = () => Array.from(mobileNav.querySelectorAll('a'));
+
+    const closeMenu = () => {
+      mobileNav.classList.add('hidden');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    };
+
+    const openMenu = () => {
+      mobileNav.classList.remove('hidden');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      const firstLink = mobileNav.querySelector('a');
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    getLinks().forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    mobileNav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+  }
+</script>

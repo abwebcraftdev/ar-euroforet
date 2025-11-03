@@ -1,29 +1,83 @@
 ---
-import { SITE } from "../data/site";
 import { CMS_ENABLED } from "../lib/flags";
+import type { CTA } from "../lib/services";
 
 interface Props {
   title: string;
   description: string;
   href: string;
-  ctaType?: "page" | "call";
-  ctaLabel?: string;
+  price?: string;
+  startingFrom?: boolean;
+  cta?: CTA;
 }
-const { title, description, href, ctaType, ctaLabel } = Astro.props as Props;
-const computedType = ctaType ?? "page";
-const fallbackLabel =
-  computedType === "call"
-    ? "Appeler"
-    : CMS_ENABLED
-    ? "Voir le service"
-    : "Obtenir un devis";
-const resolvedLabel = ctaLabel ?? fallbackLabel;
-const ctaHref = computedType === "call" ? `tel:${SITE.phoneE164}` : href;
+
+const { title, description, href, price, startingFrom = false, cta } = Astro.props as Props;
+
+const fallbackLabel = CMS_ENABLED ? "Voir le service" : "Obtenir un devis";
+const resolvedLabel = cta?.label ?? fallbackLabel;
+const ctaHref = cta?.url ?? href;
+
+const CTA_CLASS_MAP: Record<string, string> = {
+  primary:
+    "relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-forest text-white px-4 py-2 text-sm font-semibold transition hover:bg-forest/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest",
+  secondary:
+    "relative z-20 inline-flex items-center gap-2 rounded-xl border border-brown/40 bg-brown text-white px-4 py-2 text-sm font-semibold transition hover:bg-brown/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown",
+  ghost:
+    "relative z-20 inline-flex items-center gap-2 rounded-xl border border-forest/30 bg-white/80 px-4 py-2 text-sm font-semibold text-forest transition hover:bg-forest/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest",
+};
+
+const resolveCtaClass = (style?: CTA["style"]) => CTA_CLASS_MAP[style ?? "primary"] ?? CTA_CLASS_MAP.primary;
+
+const displayPrice = (() => {
+  if (!price) return undefined;
+  const raw = String(price).trim();
+  if (!raw) return undefined;
+  const hasCurrency = /€|eur|euro/i.test(raw);
+  const containsDigit = /\d/.test(raw);
+  const normalized = hasCurrency || !containsDigit ? raw : `${raw}\u00A0€`;
+  const label = startingFrom && containsDigit ? `À partir de ${normalized}` : normalized;
+  return label;
+})();
 ---
-<article class="rounded-xl border border-black/10 p-6 bg-white shadow-soft" data-reveal>
-  <h3 class="text-xl font-semibold">
-    <a href={href} class="hover:text-forest transition">{title}</a>
-  </h3>
-  <p class="mt-2 text-anth/80">{description}</p>
-  <a href={ctaHref} class="btn btn-ghost mt-4">{resolvedLabel}</a>
+<article
+  class="service-card group relative flex h-full flex-col overflow-hidden rounded-xl border border-forest/15 bg-gradient-to-br from-white to-beige/70 shadow-soft transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-within:-translate-y-1 focus-within:shadow-lg"
+  data-reveal
+>
+  <div class="absolute inset-0 bg-gradient-to-br from-forest/5 via-transparent to-brown/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"></div>
+
+  <div class="relative z-10 flex flex-1 flex-col gap-6 p-6">
+    <div class="space-y-3">
+      <h3 class="font-display text-xl font-semibold text-forest">
+        {title}
+      </h3>
+      <p class="text-sm leading-relaxed text-anth/75">{description}</p>
+    </div>
+
+    <div class="mt-auto flex items-center gap-3 text-sm font-medium text-forest/80">
+      <a href={ctaHref} class={resolveCtaClass(cta?.style)}>
+        {resolvedLabel}
+        <svg
+          class="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-within:translate-x-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+      {displayPrice && (
+        <span class="ml-auto inline-flex items-center rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-forest/80 shadow-sm backdrop-blur">
+          {displayPrice}
+        </span>
+      )}
+    </div>
+  </div>
+
+  <a
+    href={href}
+    class="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest/50"
+    aria-label={`Découvrir le service ${title}`}
+  >
+    <span class="sr-only">Découvrir le service {title}</span>
+  </a>
 </article>

@@ -1,0 +1,333 @@
+---
+import { createMarkdownProcessor } from "@astrojs/markdown-remark";
+import type { CTA, ServiceCardContent } from "../lib/services";
+import type { GalleryImage } from "../lib/images";
+
+interface Props {
+  slug?: string;
+  title: string;
+  excerpt: string;
+  heroImage?: GalleryImage;
+  heroCtas?: CTA[];
+  mainCard: ServiceCardContent;
+  extraCards?: ServiceCardContent[];
+  gallery?: GalleryImage[];
+}
+
+const {
+  slug,
+  title,
+  excerpt,
+  heroImage,
+  heroCtas = [],
+  mainCard,
+  extraCards = [],
+  gallery = [],
+} = Astro.props as Props;
+
+const ctas = (heroCtas.length ? heroCtas : mainCard.ctas).slice(0, 2);
+
+const formatPrice = (price?: string, startingFrom?: boolean) => {
+  const raw = price?.trim();
+  if (!raw) return undefined;
+  const hasCurrency = /€|eur|euro/i.test(raw);
+  const containsDigit = /\d/.test(raw);
+  const normalized = hasCurrency || !containsDigit ? raw : `${raw}\u00A0€`;
+  return startingFrom && containsDigit ? `À partir de ${normalized}` : normalized;
+};
+
+const mainPrice = formatPrice(mainCard.price, mainCard.startingFrom);
+
+const sanitizedSlug = (slug ?? title)
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-|-$/g, "");
+const carouselId = `service-carousel-${sanitizedSlug || "default"}`;
+
+const galleryImages = gallery.length ? gallery : heroImage ? [heroImage] : [];
+const hasGallery = galleryImages.length > 0;
+const hasCarousel = galleryImages.length > 1;
+
+const markdownProcessor = createMarkdownProcessor();
+
+const CTA_CLASS_MAP: Record<string, string> = {
+  primary: "btn btn-primary",
+  secondary: "btn btn-secondary",
+  ghost: "btn btn-ghost",
+};
+
+const resolveCtaClass = (style: CTA["style"]) =>
+  CTA_CLASS_MAP[style ?? "primary"] ?? CTA_CLASS_MAP.primary;
+
+const renderMarkdownToHtml = async (markdown?: string) => {
+  if (!markdown) return undefined;
+  const processor = await markdownProcessor;
+  const { code } = await processor.render(markdown);
+  return code;
+};
+
+type RenderedCard = ServiceCardContent & { bodyHtml?: string };
+
+const mainCardBodyHtml = await renderMarkdownToHtml(mainCard.body);
+const extraCardsRendered: RenderedCard[] = (
+  await Promise.all(
+    extraCards.map(async (card) => ({
+      ...card,
+      bodyHtml: await renderMarkdownToHtml(card.body),
+    })),
+  )
+).filter((card) => card.title || card.bodyHtml || card.price || card.ctas.length > 0);
+
+const priceBadge = (card: ServiceCardContent) => {
+  const normalized = formatPrice(card.price, card.startingFrom);
+  if (!normalized) return undefined;
+  return normalized;
+};
+---
+
+<!-- Mobile hero -->
+<div class="md:hidden" style="background-color: rgba(255, 255, 255, 0.5);">
+  <div class="container py-8">
+    <h1 class="text-3xl font-display font-bold">{title}</h1>
+    <p class="text-neutral-600 mt-2">{excerpt}</p>
+  </div>
+</div>
+
+<!-- Desktop hero -->
+<div class="hidden md:block">
+  <section class="py-12 md:py-24 !pb-1" style="background-color: rgba(255, 255, 255, 0.5);">
+    <div class="container">
+      <h1 class="text-3xl md:text-5xl font-display font-extrabold">{title}</h1>
+      <p class="lead mt-3">{excerpt}</p>
+    </div>
+  </section>
+</div>
+
+<section class="py-3 md:py-12 !pt-0" style="background-color: rgba(255, 255, 255, 0.5);">
+  <div class="container">
+    <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div class:list={{ "grid": true, "md:grid-cols-2": hasGallery }}>
+        <!-- Desktop content column -->
+        <div class="hidden md:flex p-12 flex-col justify-center">
+          <div class="space-y-6">
+            {mainCard.title && (
+              <h2 class="text-2xl font-display font-semibold md:text-3xl">{mainCard.title}</h2>
+            )}
+            {mainPrice && <p class="lead">{mainPrice}</p>}
+            {mainCardBodyHtml && (
+              <div class="prose prose-neutral max-w-none text-anth/80" set:html={mainCardBodyHtml}></div>
+            )}
+            {ctas.length > 0 && (
+              <div class="flex gap-3">
+                {ctas.map((cta) => (
+                  <a href={cta.url} class={resolveCtaClass(cta.style)}>{cta.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {hasGallery && (
+          <div class="relative bg-gradient-to-r from-white to-neutral-100 order-first md:order-last" data-carousel-root={carouselId}>
+            <div class:list={{ "absolute inset-0 bg-gradient-to-r from-white via-white/50 to-transparent z-10 pointer-events-none hidden md:block": true }} style="width: 120px;"></div>
+            <div class="relative h-full min-h-[300px] md:min-h-[500px] overflow-hidden">
+              <div id={carouselId} class="absolute inset-0">
+                {galleryImages.map((image, index) => (
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0"
+                    data-carousel-image
+                    data-index={index}
+                    style={index === 0 ? "opacity: 1;" : ""}
+                    loading={index === 0 ? "eager" : "lazy"}
+                  />
+                ))}
+              </div>
+
+              {hasCarousel && (
+                <>
+                  <button type="button" class="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/40 hover:bg-black/60 p-2 transition-all focus:outline-none focus:ring-2 focus:ring-white/80" data-carousel-prev aria-label="Photo précédente">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M15 6l-6 6 6 6"></path>
+                    </svg>
+                  </button>
+                  <button type="button" class="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-black/40 hover:bg-black/60 p-2 transition-all focus:outline-none focus:ring-2 focus:ring-white/80" data-carousel-next aria-label="Photo suivante">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 6l6 6-6 6"></path>
+                    </svg>
+                  </button>
+                </>
+              )}
+
+              {hasCarousel && (
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                  {galleryImages.map((_, index) => (
+                    <button
+                      type="button"
+                      class="carousel-indicator w-3 h-3 rounded-full transition-all duration-300 bg-white/40 hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-white/80"
+                      data-carousel-indicator
+                      data-index={index}
+                      style={index === 0 ? "background-color: white;" : ""}
+                      aria-label={`Afficher l'image ${index + 1}`}
+                    ></button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <!-- Mobile content -->
+        <div class="md:hidden p-8">
+          <div class="space-y-6">
+            {mainCard.title && (
+              <h2 class="text-2xl font-display font-semibold">{mainCard.title}</h2>
+            )}
+            {mainPrice && <p class="lead">{mainPrice}</p>}
+            {mainCardBodyHtml && (
+              <div class="prose prose-neutral max-w-none text-anth/80" set:html={mainCardBodyHtml}></div>
+            )}
+            {ctas.length > 0 && (
+              <div class="flex flex-col gap-3">
+                {ctas.map((cta) => (
+                  <a href={cta.url} class={resolveCtaClass(cta.style)}>{cta.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{extraCardsRendered.length > 0 && (
+  <section class="py-12 md:py-20 bg-gradient-to-b from-white via-white to-beige/40">
+    <div class="container space-y-8">
+      <div class="grid gap-6 md:grid-cols-2">
+        {extraCardsRendered.map((card) => {
+          const badge = priceBadge(card);
+          return (
+            <article class="relative rounded-2xl bg-white/90 shadow-soft border border-forest/10 p-8 flex flex-col gap-4" data-reveal>
+              {card.title && <h3 class="text-2xl font-display font-semibold text-forest">{card.title}</h3>}
+              {badge && <span class="inline-flex w-fit items-center rounded-full bg-forest/10 px-3 py-1 text-sm font-semibold text-forest">{badge}</span>}
+              {card.bodyHtml && (
+                <div class="prose prose-neutral max-w-none text-anth/80" set:html={card.bodyHtml}></div>
+              )}
+              {card.ctas.length > 0 && (
+                <div class="mt-2 flex flex-wrap gap-3">
+                  {card.ctas.map((cta) => (
+                    <a href={cta.url} class={resolveCtaClass(cta.style)}>{cta.label}</a>
+                  ))}
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}
+
+{hasCarousel && (
+  <script is:inline data-carousel-root={carouselId}>
+    (() => {
+      const script = document.currentScript;
+      const carouselId = script?.dataset.carouselRoot;
+      if (!carouselId) return;
+
+      const root = document.querySelector(`[data-carousel-root="${carouselId}"]`);
+      if (!root) return;
+
+      const images = Array.from(root.querySelectorAll("[data-carousel-image]"));
+      if (images.length <= 1) return;
+
+      const indicators = Array.from(root.querySelectorAll("[data-carousel-indicator]"));
+      const prevBtn = root.querySelector("[data-carousel-prev]");
+      const nextBtn = root.querySelector("[data-carousel-next]");
+
+      let currentIndex = 0;
+      let autoplayInterval;
+      let isPaused = false;
+
+      const showImage = (index) => {
+        images.forEach((img, i) => {
+          const el = img;
+          if (i === index) {
+            el.style.opacity = "1";
+            el.style.zIndex = "1";
+          } else {
+            el.style.opacity = "0";
+            el.style.zIndex = "0";
+          }
+        });
+
+        indicators.forEach((indicator, i) => {
+          const el = indicator;
+          if (i === index) {
+            el.style.backgroundColor = "white";
+          } else {
+            el.style.backgroundColor = "rgba(255, 255, 255, 0.4)";
+          }
+        });
+      };
+
+      const nextImage = () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      };
+
+      const prevImage = () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+      };
+
+      const goToImage = (index) => {
+        currentIndex = index;
+        showImage(currentIndex);
+        pauseFor6Seconds();
+      };
+
+      const resetAutoplay = () => {
+        clearInterval(autoplayInterval);
+        if (!isPaused) {
+          autoplayInterval = setInterval(nextImage, 2500);
+        }
+      };
+
+      const pauseFor6Seconds = () => {
+        isPaused = true;
+        clearInterval(autoplayInterval);
+        setTimeout(() => {
+          isPaused = false;
+          resetAutoplay();
+        }, 6000);
+      };
+
+      indicators.forEach((indicator, i) => {
+        indicator.addEventListener("click", () => goToImage(i));
+      });
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          prevImage();
+          pauseFor6Seconds();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          nextImage();
+          pauseFor6Seconds();
+        });
+      }
+
+      resetAutoplay();
+
+      const container = root.querySelector(`#${carouselId}`);
+      container?.addEventListener("mouseenter", () => clearInterval(autoplayInterval));
+      container?.addEventListener("mouseleave", resetAutoplay);
+    })();
+  </script>
+)}

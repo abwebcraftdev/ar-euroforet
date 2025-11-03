@@ -56,10 +56,18 @@ const schemas = JSON_LD_EXTRA_ENABLED
   <meta property="og:image" content={ogImage} />
   {schemas.map((s) => <JsonLd data={s} />)}
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white border px-3 py-2 rounded">Aller au contenu</a>
   <Header />
-  <main id="main"><slot /></main>
+  <main
+    id="main"
+    class:list={{
+      'flex-1': true,
+      'pb-24 md:pb-0': PHONE_BAR_ENABLED,
+    }}
+  >
+    <slot />
+  </main>
   <Footer />
   {PHONE_BAR_ENABLED && <PhoneBar />}
   <script is:inline>

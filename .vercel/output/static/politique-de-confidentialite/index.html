@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.jpg" type="image/jpeg"><title>Politique de confidentialité — A.R. Euro Forêt</title><meta name="description" content="Protection des données personnelles."><link rel="canonical" href="https://www.areuroforet.fr/politique-de-confidentialite/"><meta property="og:type" content="website"><meta property="og:title" content="Politique de confidentialité — A.R. Euro Forêt"><meta property="og:description" content="Protection des données personnelles."><meta property="og:url" content="https://www.areuroforet.fr/politique-de-confidentialite/"><meta property="og:image" content="/images/og-default.png"><script type="application/ld+json">{JSON.stringify(data)}</script><link rel="stylesheet" href="/_astro/bois-de-chauffage.D2PoyCh6.css"></head> <body class="min-h-screen flex flex-col"> <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white border px-3 py-2 rounded">Aller au contenu</a> <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-black/10"> <div class="container flex items-center justify-between h-16"> <a href="/" class="flex items-center gap-3"> <img src="/logo-ar-foret.jpeg" alt="Logo A.R. Euro Forêt" width="28" height="28" class="object-contain"> <span class="font-display font-bold text-lg">A.R. Euro Forêt</span> </a> <nav class="hidden md:flex items-center gap-6"> <a href="/" class="text-anth/80 hover:text-anth">Accueil</a><a href="/services" class="text-anth/80 hover:text-anth">Services</a><a href="/bois-de-chauffage" class="text-anth/80 hover:text-anth">Bois de chauffage</a><a href="/zone-d_intervention" class="text-anth/80 hover:text-anth">Zone d’intervention</a><a href="/galerie" class="text-anth/80 hover:text-anth">Galerie</a><a href="/contact" class="text-anth/80 hover:text-anth">Contact</a>  </nav> <div class="hidden md:flex items-center gap-3"> <a href="tel:+33600000000" class="btn btn-ghost">Appeler</a> <a href="/contact" class="btn btn-primary">Demander un devis</a> </div> <button id="mobile-menu-toggle" class="md:hidden p-2" type="button" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false"> <svg width="24" height="24" fill="none" stroke="currentColor"><path d="M4 6h16M4 12h16M4 18h16"></path></svg> </button> </div> <div id="mobile-nav" class="md:hidden hidden border-t border-black/10" aria-hidden="true"> <div class="container py-4 flex flex-col gap-4"> <a href="/" class="text-anth">Accueil</a><a href="/services" class="text-anth">Services</a><a href="/bois-de-chauffage" class="text-anth">Bois de chauffage</a><a href="/zone-d_intervention" class="text-anth">Zone d’intervention</a><a href="/galerie" class="text-anth">Galerie</a><a href="/contact" class="text-anth">Contact</a>  <div class="flex flex-col sm:flex-row gap-3"> <a href="tel:+33600000000" class="btn btn-ghost flex-1 w-full sm:w-auto">Appeler</a> <a href="/contact" class="btn btn-primary flex-1 w-full sm:w-auto">Demander un devis</a> </div> </div> </div> </header> <script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (toggle && mobileNav) {
+    const getLinks = () => Array.from(mobileNav.querySelectorAll('a'));
+
+    const closeMenu = () => {
+      mobileNav.classList.add('hidden');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    };
+
+    const openMenu = () => {
+      mobileNav.classList.remove('hidden');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      const firstLink = mobileNav.querySelector('a');
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    getLinks().forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    mobileNav.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+  }
+</script> <main id="main" class="flex-1 pb-24 md:pb-0">  <section class="section"> <div class="container space-y-4"> <h1 class="text-3xl font-display font-bold">Politique de confidentialité</h1> <p>Nous collectons uniquement les informations nécessaires au traitement de vos demandes (nom, contact, message, pièces jointes). Les données ne sont pas revendues et sont conservées le temps strictement nécessaire.</p> <p>Vous pouvez exercer vos droits d’accès, de rectification ou de suppression en nous contactant.</p> <p>Cookies : ce site peut utiliser des cookies de mesure d’audience respectueux (ex. Plausible/Matomo). Un bandeau de consentement sera affiché en cas de traceurs marketing.</p> </div> </section>  </main> <footer class="mt-0 md:mt-0 border-t border-black/10"> <div class="container grid md:grid-cols-3 gap-8 py-12"> <div> <h3 class="font-display font-semibold mb-3">A.R. Euro Forêt</h3> <p class="small text-anth/80">Travaux forestiers, élagage, abattage et entretien d'espaces verts.</p> <p class="small mt-3"><strong>SIRET</strong> : 884 585 621 00011</p> <p class="small"><strong>Activité</strong> : Travaux forestiers et d’espaces verts</p> </div> <div> <h4 class="font-semibold mb-3">Contact</h4> <ul class="space-y-2"> <li><a class="text-forest" href="tel:+33600000000">+33 6 00 00 00 00</a></li> <li><a class="text-forest" href="mailto:contact@areuroforet.fr">contact@areuroforet.fr</a></li> <li><a class="text-forest" href="https://www.pagesjaunes.fr/pros/60923234">Mappy</a></li> <li><a class="text-forest" href="https://www.travaux.com/professionnel/a-r-euro-foret">Travaux.com</a></li> </ul> </div> <div> <h4 class="font-semibold mb-3">Liens</h4> <ul class="space-y-2"> <li><a class="text-anth/80 hover:text-anth" href="/mentions-legales">Mentions légales</a></li> <li><a class="text-anth/80 hover:text-anth" href="/politique-de-confidentialite">Politique de confidentialité</a></li>  </ul> </div> </div> <div class="py-6 bg-beige/60"> <div class="container small text-anth/70 flex flex-col md:flex-row gap-3 md:items-center md:justify-between"> <span>© 2025 A.R. Euro Forêt. Tous droits réservés.</span> <span>Site propulsé par Astro.</span> </div> </div> </footer> <div class="phone-bar"> <div class="container flex gap-3"> <a href="tel:+33600000000" class="call rounded-xl flex items-center justify-center gap-2 flex-1"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"> <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.3 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.15a2 2 0 0 1 2.11-.45c.84.27 1.71.45 2.61.57A2 2 0 0 1 22 16.92z"></path> </svg>
+Appeler
+</a> <a href="/contact" class="quote text-center flex items-center justify-center gap-2 flex-1"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"> <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path> </svg>
+Devis
+</a> </div> </div> <script>
+    const els=document.querySelectorAll('[data-reveal]');
+    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target);}})},{threshold:.15});
+    els.forEach(el=>io.observe(el));
+  </script> </body> </html>

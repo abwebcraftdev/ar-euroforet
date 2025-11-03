@@ -1,0 +1,74 @@
+---
+import Layout from "../components/Layout.astro";
+import GalleryItem from "../components/GalleryItem.astro";
+
+// Liste d'images — utilise les fichiers déjà présents dans public/images
+// Adapte si besoin. Tu peux en ajouter/retirer. L'ordre crée un bel effet "quinconce".
+const images: { src: string; alt: string }[] = [
+  { src: "/images/IMG_9680.JPG", alt: "Réalisation 1" },
+  { src: "/images/IMG_9681.JPG", alt: "Réalisation 2" },
+  { src: "/images/IMG_9682.JPG", alt: "Réalisation 3" },
+  { src: "/images/IMG_9683.JPG", alt: "Réalisation 4" },
+  { src: "/images/IMG_9684.JPG", alt: "Réalisation 5" },
+  { src: "/images/IMG_9685.JPG", alt: "Réalisation 6" },
+  { src: "/images/IMG_9686.JPG", alt: "Réalisation 7" },
+  { src: "/images/IMG_9687.JPG", alt: "Réalisation 8" },
+  { src: "/images/IMG_9689.JPG", alt: "Réalisation 9" },
+  { src: "/images/IMG_9690.JPG", alt: "Réalisation 10" },
+  { src: "/images/IMG_9691.JPG", alt: "Réalisation 11" },
+  { src: "/images/IMG_9692.JPG", alt: "Réalisation 12" },
+  { src: "/images/IMG_9693.JPG", alt: "Réalisation 13" },
+  { src: "/images/IMG_9695.JPG", alt: "Réalisation 14" },
+  { src: "/images/IMG_9696.JPG", alt: "Réalisation 15" },
+  { src: "/images/IMG_9697.JPG", alt: "Réalisation 16" },
+  { src: "/images/IMG_9698.JPG", alt: "Réalisation 17" },
+  { src: "/images/IMG_9699.JPG", alt: "Réalisation 18" },
+  { src: "/images/IMG_9700.JPG", alt: "Réalisation 19" },
+  { src: "/images/IMG_9701.JPG", alt: "Réalisation 20" },
+  { src: "/images/IMG_9702.JPG", alt: "Réalisation 21" },
+  { src: "/images/IMG_9703.JPG", alt: "Réalisation 22" },
+  { src: "/images/IMG_9704.JPG", alt: "Réalisation 23" },
+  { src: "/images/IMG_9705.JPG", alt: "Réalisation 24" },
+  { src: "/images/IMG_9706.JPG", alt: "Réalisation 25" },
+  { src: "/images/IMG_9707.JPG", alt: "Réalisation 26" },
+  { src: "/images/IMG_9708.JPG", alt: "Réalisation 27" },
+  { src: "/images/IMG_9709.JPG", alt: "Réalisation 28" },
+  { src: "/images/IMG_9710.JPG", alt: "Réalisation 29" },
+  { src: "/images/IMG_9711.JPG", alt: "Réalisation 30" },
+  { src: "/images/IMG_9712.JPG", alt: "Réalisation 31" },
+  { src: "/images/IMG_9714.JPG", alt: "Réalisation 32" },
+  { src: "/images/IMG_9715.JPG", alt: "Réalisation 33" },
+  { src: "/images/IMG_9716.JPG", alt: "Réalisation 34" },
+  { src: "/images/IMG_9717.JPG", alt: "Réalisation 35" },
+  { src: "/images/IMG_9718.JPG", alt: "Réalisation 36" },
+  { src: "/images/IMG_9719.JPG", alt: "Réalisation 37" },
+  { src: "/images/IMG_9720.JPG", alt: "Réalisation 38" },
+  { src: "/images/IMG_9721.JPG", alt: "Réalisation 39" },
+];
+---
+
+<Layout
+  title="Galerie Photo — A.R. Euro Forêt"
+  description="Découvrez nos réalisations: élagage, abattage et travaux forestiers. Galerie photo."
+>
+  <section class="section section-alt" style="background-color: rgba(235,168,0,0.5);">
+    <div class="container py-10">
+      <h1 class="text-3xl md:text-4xl font-display font-bold text-center">Galerie Photo</h1>
+      <p class="text-center text-neutral-600 mt-2">Sélection de réalisations — cliquez pour agrandir</p>
+
+      <!-- Masonry fluide -->
+      <div class="mt-8 columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 [column-fill:_balance]">
+        {images.map((img, i) => (
+          <div
+            class:list={[
+              "mb-4 break-inside-avoid overflow-hidden rounded-xl transition hover:scale-[1.02] hover:z-10",
+              i % 6 === 1 || i % 6 === 4 ? "mt-8" : "",
+            ]}
+          >
+            <GalleryItem {...img} index={i} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

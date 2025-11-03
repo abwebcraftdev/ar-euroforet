@@ -1,17 +1,6 @@
-# Configuration Decap CMS pour Vercel (avec GitHub backend)
-# Pour utiliser cette configuration :
-# 1. Créez une OAuth App GitHub : https://github.com/settings/developers
-# 2. Définissez Authorization callback URL : https://votre-site.vercel.app/api/auth
-# 3. Copiez cette configuration dans config.yml et remplissez repo, base_url, auth_scope
-
 backend:
-  name: github
-  repo: username/your-repo-name  # Remplacez par votre repo GitHub
+  name: git-gateway
   branch: main
-  base_url: https://votre-site.vercel.app  # Remplacez par votre URL Vercel
-  auth_scope: repo  # Permissions GitHub nécessaires
-
-# Pour le développement local, gardez local_backend: true
 local_backend: true
 
 media_folder: "public/uploads"
@@ -27,24 +16,111 @@ collections:
         fields:
           - { label: "Titre (hero)", name: "titleHero", widget: "string" }
           - { label: "Intro", name: "intro", widget: "text" }
-          - { label: "Bullets", name: "bullets", widget: "list", field: {label: "Point", name: "point", widget: "string"} }
+          - { label: "Bullets", name: "bullets", widget: "list", field: { label: "Point", name: "point", widget: "string" } }
   - name: "services"
     label: "Services"
     folder: "src/content/services"
     create: true
     slug: "{{slug}}"
+    preview_path: "services/{{slug}}"
     fields:
       - { label: "Titre", name: "title", widget: "string" }
-      - { label: "Extrait (carte)", name: "excerpt", widget: "text", required: false }
-      - { label: "Mise en avant (Accueil)", name: "featured", widget: "boolean", default: false }
-      - { label: "Ordre", name: "order", widget: "number", required: false }
-      - label: "Type de bouton"
-        name: "ctaType"
-        widget: "select"
-        options:
-          - { label: "Voir le service", value: "page" }
-          - { label: "Appeler", value: "call" }
-        required: false
-      - { label: "Texte du bouton", name: "ctaLabel", widget: "string", required: false, hint: "Laisser vide pour utiliser le libellé par défaut." }
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        pattern:
+          - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          - "Utiliser un slug en kebab-case (ex: bois-de-chauffage)"
+      - { label: "Extrait (listing)", name: "excerpt", widget: "text" }
+      - { label: "Prix (listing)", name: "price", widget: "string", required: false }
+      - { label: "Afficher 'À partir de'", name: "startingFrom", widget: "boolean", default: false, required: false }
+      - { label: "Ordre (listing)", name: "order", widget: "number", required: false }
+      - { label: "Mettre en avant", name: "featured", widget: "boolean", default: false, required: false }
       - { label: "Publié", name: "published", widget: "boolean", default: true }
-      - { label: "Contenu", name: "body", widget: "markdown" }
+      - label: "CTA (page)"
+        name: "ctas"
+        widget: "list"
+        summary: "{{fields.label}} → {{fields.url}}"
+        max: 2
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "URL", name: "url", widget: "string" }
+          - label: "Style"
+            name: "style"
+            widget: "select"
+            options:
+              - { label: "Principal", value: "primary" }
+              - { label: "Secondaire", value: "secondary" }
+              - { label: "Ghost", value: "ghost" }
+            required: false
+      - label: "Carte principale"
+        name: "mainCard"
+        widget: "object"
+        fields:
+          - { label: "Titre", name: "title", widget: "string", required: false }
+          - { label: "Texte", name: "body", widget: "markdown" }
+          - { label: "Prix", name: "price", widget: "string", required: false }
+          - { label: "Afficher 'À partir de'", name: "startingFrom", widget: "boolean", default: false, required: false }
+          - label: "CTA"
+            name: "ctas"
+            widget: "list"
+            summary: "{{fields.label}} → {{fields.url}}"
+            max: 2
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - label: "Style"
+                name: "style"
+                widget: "select"
+                options:
+                  - { label: "Principal", value: "primary" }
+                  - { label: "Secondaire", value: "secondary" }
+                  - { label: "Ghost", value: "ghost" }
+                required: false
+      - label: "Cartes additionnelles"
+        name: "extraCards"
+        widget: "list"
+        summary: "{{fields.title}}"
+        max: 12
+        required: false
+        fields:
+          - { label: "Titre", name: "title", widget: "string", required: false }
+          - { label: "Texte", name: "body", widget: "markdown", required: false }
+          - { label: "Prix", name: "price", widget: "string", required: false }
+          - { label: "Afficher 'À partir de'", name: "startingFrom", widget: "boolean", default: false, required: false }
+          - label: "CTA"
+            name: "ctas"
+            widget: "list"
+            summary: "{{fields.label}} → {{fields.url}}"
+            max: 2
+            required: false
+            fields:
+              - { label: "Label", name: "label", widget: "string", required: false }
+              - { label: "URL", name: "url", widget: "string", required: false }
+              - label: "Style"
+                name: "style"
+                widget: "select"
+                options:
+                  - { label: "Principal", value: "primary" }
+                  - { label: "Secondaire", value: "secondary" }
+                  - { label: "Ghost", value: "ghost" }
+                required: false
+      - { label: "Catégorie d'images", name: "imageCategoryKey", widget: "string", required: false, hint: "Doit correspondre à une clé de src/data/image-categories.ts" }
+      - label: "Image de couverture"
+        name: "heroImage"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Texte alternatif", name: "alt", widget: "string", required: false }
+      - label: "Galerie (override)"
+        name: "galleryOverride"
+        widget: "list"
+        summary: "{{fields.src}}"
+        hint: "Remplace ou complète la catégorie d'images au-dessus"
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Texte alternatif", name: "alt", widget: "string", required: false }
+      - { label: "Meta title", name: "metaTitle", widget: "string", required: false }
+      - { label: "Meta description", name: "metaDescription", widget: "text", required: false }
+      - { label: "Image Open Graph", name: "openGraphImage", widget: "image", required: false }

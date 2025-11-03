@@ -1,30 +1,29 @@
 ---
 import Layout from "../../components/Layout.astro";
-import { getCollection } from "astro:content";
+import ServicePage from "../../components/ServicePage.astro";
+import { SITE } from "../../data/site";
+import { getServiceStaticPaths, type ServiceData } from "../../lib/services";
 
 export async function getStaticPaths() {
-  const all = await getCollection('services', s => s.data.published !== false);
-  return all.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry }
-  }));
+  return await getServiceStaticPaths();
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { service } = Astro.props as { service: ServiceData };
+
+const pageTitle = service.meta.title ?? `${service.title} — ${SITE.name}`;
+const description = service.meta.description ?? service.excerpt;
+const ogImage = service.meta.ogImage ?? service.heroImage?.src ?? service.gallery[0]?.src;
+const jsonLd = service.jsonLd ? [service.jsonLd] : [];
 ---
-<Layout title={`${entry.data.title} — A.R. Euro Forêt`} description={entry.data.excerpt ?? "Service"}>
-  <section class="section">
-    <div class="container prose prose-neutral max-w-none">
-      <h1 class="text-3xl md:text-5xl font-display font-extrabold">{entry.data.title}</h1>
-      <p class="mt-2 text-anth/80">{entry.data.excerpt}</p>
-      <div class="mt-6">
-        <Content />
-      </div>
-      <div class="mt-8">
-        <a href="/contact" class="btn btn-primary">Demander un devis</a>
-        <a href="/services" class="btn btn-ghost ml-2">Tous les services</a>
-      </div>
-    </div>
-  </section>
+<Layout title={pageTitle} description={description} ogImage={ogImage} jsonLd={jsonLd}>
+  <ServicePage
+    slug={service.slug}
+    title={service.title}
+    excerpt={service.excerpt}
+    heroImage={service.heroImage}
+    heroCtas={service.heroCtas}
+    mainCard={service.mainCard}
+    extraCards={service.extraCards}
+    gallery={service.gallery}
+  />
 </Layout>

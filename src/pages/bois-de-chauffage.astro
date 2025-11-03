@@ -1,53 +1,28 @@
 ---
 import Layout from "../components/Layout.astro";
-import PageHeading from "../components/PageHeading.astro";
+import ServicePage from "../components/ServicePage.astro";
 import { SITE } from "../data/site";
+import { getServiceBySlug } from "../lib/services";
 
-const productSchema = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Bois de chauffage",
-  "brand": SITE.name,
-  "description": "Bois sec prêt à brûler, plusieurs essences selon la saison. Livraison possible.",
-  "offers": {
-    "@type": "Offer",
-    "price": "80",
-    "priceCurrency": "EUR",
-    "priceValidUntil": "2030-12-31",
-    "availability": "https://schema.org/InStock",
-    "url": SITE.url + "/bois-de-chauffage",
-  },
-};
+const service = await getServiceBySlug('bois-de-chauffage');
+if (!service) {
+  throw new Error("Service 'bois-de-chauffage' introuvable");
+}
+
+const pageTitle = service.meta.title ?? `${service.title} — ${SITE.name}`;
+const description = service.meta.description ?? service.excerpt;
+const ogImage = service.meta.ogImage ?? service.heroImage?.src ?? service.gallery[0]?.src;
+const jsonLd = service.jsonLd ? [service.jsonLd] : [];
 ---
-<Layout
-  title="Bois de chauffage — A.R. Euro Forêt"
-  description="Bois sec prêt à brûler, livraison possible. À partir de 80 € le stère (exemple)."
-  jsonLd={[productSchema]}
->
-  <PageHeading title="Bois de chauffage" intro="Bois sec prêt à brûler. Livraison possible selon zones." />
-  <section class="section pt-0">
-    <div class="container grid md:grid-cols-2 gap-10">
-      <div class="space-y-4" data-reveal>
-        <p class="lead">À partir de <strong>80 € le stère</strong> (prix indicatif à ajuster).</p>
-        <ul class="list-disc pl-5 text-anth/80 space-y-1">
-          <li>Essences selon saison (à préciser)</li>
-          <li>Longueurs disponibles (ex. 25/33/50 cm)</li>
-          <li>Livraison possible (zones & min de commande)</li>
-          <li>Délai moyen (à préciser)</li>
-        </ul>
-        <div class="flex gap-3">
-          <a href={"tel:" + SITE.phoneE164} class="btn btn-primary">Appeler pour commander</a>
-          <a href="/contact" class="btn btn-ghost">Demander un devis</a>
-        </div>
-      </div>
-      <div data-reveal>
-        <img
-          src="/images/wood-placeholder.svg"
-          alt="Bûches de bois de chauffage"
-          class="w-full h-auto rounded-xl shadow-soft"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </section>
+<Layout title={pageTitle} description={description} ogImage={ogImage} jsonLd={jsonLd}>
+  <ServicePage
+    slug={service.slug}
+    title={service.title}
+    excerpt={service.excerpt}
+    heroImage={service.heroImage}
+    heroCtas={service.heroCtas}
+    mainCard={service.mainCard}
+    extraCards={service.extraCards}
+    gallery={service.gallery}
+  />
 </Layout>
